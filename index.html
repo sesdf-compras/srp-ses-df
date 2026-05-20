@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Processo de Trabalho — SRP / SES-DF</title>
+<title>Processo de Trabalho SRP — SES-DF / SUCOMP</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -18,62 +18,97 @@
   --dec-bg:#e8f0fa;--dec-brd:#2e6fc4;--dec-txt:#0c447c;
   --ret-bg:#fff5ef;--ret-brd:#c05a1a;--ret-txt:#8b3a10;
   --par-bg:#eaf5ee;--par-brd:#3b6d11;--par-txt:#27500a;
+  --ctx-bg:#f1efe8;--ctx-brd:#b4b2a9;--ctx-txt:#5f5e5a;
+  --ok-bg:#eaf3de;--ok-brd:#97c459;--ok-txt:#27500a;
+  --var-bg:#faeeda;--var-brd:#ef9f27;--var-txt:#633806;
+  --alerta-bg:#fcebeb;--alerta-brd:#e24b4a;--alerta-txt:#791f1f;
+  --amostras:#854F0B;--amostras-l:#FFF8E6;--amostras-m:#FAC775;
+  --recursos:#8B2020;--recursos-l:#FCEBEB;--recursos-m:#F5C4B3;
+  --usci:#3C3489;--usci-l:#EEEDFE;--usci-m:#CECBF6;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
-.topbar{background:var(--accent2);color:#fff;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.topbar-left .t1{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.topbar-left .t2{font-size:11px;opacity:.65;margin-top:1px}
-.topbar-actions{display:flex;gap:8px}
-.btn{padding:5px 13px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--accent2);color:#fff;padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.topbar-left .t1{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.topbar-left .t2{font-size:10px;opacity:.65}
+.topbar-nav{display:flex;gap:4px}
+.nav-btn{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-family:inherit;transition:all .15s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
+.topbar-actions{display:flex;gap:6px;margin-left:12px}
+.btn{padding:4px 11px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
 .btn-ghost{background:rgba(255,255,255,.12);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.22)}
 .btn-primary{background:#fff;color:var(--accent2)}.btn-primary:hover{background:#e8eff9}
-.main{max-width:980px;margin:0 auto;padding:24px 20px 80px}
-.meta-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.meta-field label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:3px}
-.meta-field input,.meta-field select{width:100%;border:1px solid var(--border2);border-radius:5px;padding:5px 9px;font-family:inherit;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+
+/* ── SECTIONS ── */
+.section{display:none;padding:20px 16px 60px;max-width:980px;margin:0 auto}
+.section.active{display:block}
+
+/* ── META ── */
+.meta-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.meta-field label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:2px}
+.meta-field input,.meta-field select{width:100%;border:1px solid var(--border2);border-radius:4px;padding:4px 8px;font-family:inherit;font-size:12px;color:var(--text);background:var(--bg);outline:none}
 .meta-field input:focus,.meta-field select:focus{border-color:var(--accent);background:#fff}
 
-/* TEMPO CARD */
-.tempo-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:18px}
-.tempo-title{font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.tempo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-bottom:10px}
-.tempo-cat{border-radius:7px;padding:9px 8px;text-align:center;border:1px solid transparent}
+/* ── TEMPO CARD ── */
+.tempo-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px}
+.tempo-title{font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:8px}
+.tempo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-bottom:8px}
+.tempo-cat{border-radius:6px;padding:8px 6px;text-align:center;border:1px solid transparent}
 .tc1{background:#EAF3DE;border-color:#9FE1CB}.tc2{background:#E6F1FB;border-color:#B5D4F4}
 .tc3{background:#FFF8E6;border-color:#FAC775}.tc4{background:#FAECE7;border-color:#F5C4B3}
 .tc5{background:var(--bg);border-color:var(--border)}
-.tc-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
-.tc-du{font-size:20px;font-weight:600;line-height:1}
-.tc-sub{font-size:9px;margin-top:2px}
+.tc-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+.tc-du{font-size:18px;font-weight:600;line-height:1}
+.tc-sub{font-size:9px;margin-top:1px}
 .tc1 .tc-label,.tc1 .tc-sub{color:#3B6D11}.tc1 .tc-du{color:#27500A}
 .tc2 .tc-label,.tc2 .tc-sub{color:#185FA5}.tc2 .tc-du{color:#0C447C}
 .tc3 .tc-label,.tc3 .tc-sub{color:#854F0B}.tc3 .tc-du{color:#633806}
 .tc4 .tc-label,.tc4 .tc-sub{color:#993C1D}.tc4 .tc-du{color:#712B13}
 .tc5 .tc-label,.tc5 .tc-sub{color:var(--muted)}.tc5 .tc-du{color:var(--text)}
-.tempo-nota{font-size:10px;color:var(--muted);line-height:1.5;border-top:1px solid var(--border);padding-top:8px}
-.tempo-nota strong{font-weight:500;color:var(--text)}
+.tempo-nota{font-size:9px;color:var(--muted);line-height:1.5;border-top:1px solid var(--border);padding-top:6px}
 
-.toolbar{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .tlabel{font-size:11px;color:var(--muted);font-weight:500;margin-right:2px}
-.btn-sm{padding:4px 11px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:inherit;transition:all .15s}
+.btn-sm{padding:3px 10px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:inherit;transition:all .15s}
 .btn-sm:hover{background:var(--dec-bg);border-color:var(--accent);color:var(--accent)}
 .btn-sm.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-.legend{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px;padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
-.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+/* ── LEGEND ── */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:7px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
-.phase{margin-bottom:9px;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
-.phase-header{display:flex;align-items:center;gap:8px;padding:8px 13px;cursor:pointer;user-select:none;font-weight:600;font-size:13px;transition:opacity .15s}
+/* ── AVISO ── */
+.aviso{border-left:3px solid;border-radius:0 7px 7px 0;padding:8px 12px;margin-bottom:14px;font-size:12px;line-height:1.6}
+.aviso strong{font-weight:600}
+.aviso-amber{background:var(--amostras-l);border-color:var(--amostras);color:#633806}
+.aviso-red{background:var(--recursos-l);border-color:var(--recursos);color:#791F1F}
+.aviso-purple{background:var(--usci-l);border-color:var(--usci);color:#3C3489}
+.aviso-blue{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+
+/* ── SECTION HEADER ── */
+.sec-header{padding:12px 16px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-header h2{font-size:15px;font-weight:600}
+.sec-header p{font-size:12px;opacity:.8;margin-top:2px}
+.sh-main{background:var(--accent2);color:#fff}
+.sh-amostras{background:var(--amostras);color:#fff}
+.sh-recursos{background:var(--recursos);color:#fff}
+.sh-usci{background:var(--usci);color:#fff}
+
+/* ── PHASE ── */
+.phase{margin-bottom:8px;border-radius:9px;overflow:hidden;border:1px solid var(--border)}
+.phase-header{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;user-select:none;font-weight:600;font-size:12px;transition:opacity .15s}
 .phase-header:hover{opacity:.85}
-.phase-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.04em}
-.phase-count{font-size:10px;font-weight:400;opacity:.7;margin-left:3px}
-.phase-du{font-size:10px;font-weight:500;margin-left:auto;opacity:.75;padding-right:4px}
-.phase-chevron{font-size:11px;transition:transform .2s;flex-shrink:0}
+.phase-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:20px;letter-spacing:.04em}
+.phase-count{font-size:9px;font-weight:400;opacity:.7;margin-left:3px}
+.phase-du{font-size:9px;font-weight:500;margin-left:auto;opacity:.75;padding-right:4px}
+.phase-chevron{font-size:10px;transition:transform .2s;flex-shrink:0}
 .phase.collapsed .phase-chevron{transform:rotate(-90deg)}
 .phase.collapsed .phase-body{display:none}
-.phase-body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:5px;background:#fafbfd}
-
+.phase-body{padding:6px 8px 8px;display:flex;flex-direction:column;gap:4px;background:#fafbfd}
 .ph-f1 .phase-header{background:var(--f1l);color:var(--f1)}
 .ph-f1 .snum{background:var(--f1m);color:var(--f1)}
 .ph-f2 .phase-header{background:var(--f2l);color:var(--f2)}
@@ -86,52 +121,70 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .ph-f5 .snum{background:var(--f5m);color:var(--f5)}
 .ph-f6 .phase-header{background:var(--f6l);color:var(--f6)}
 .ph-f6 .snum{background:var(--f6m);color:var(--f6)}
+.ph-sub .phase-header{background:#F5F5F0;color:#2C2C2A}
+.ph-sub .snum{background:#E8E6DF;color:#2C2C2A}
 
-.step-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:box-shadow .15s}
-.step-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
+/* ── STEP CARD ── */
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;overflow:hidden;transition:box-shadow .15s}
+.step-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
 .step-card.dec{background:var(--dec-bg);border:1.5px dashed var(--dec-brd)}
 .step-card.ret{background:var(--ret-bg);border:1.5px dashed var(--ret-brd)}
 .step-card.par{background:var(--par-bg);border:1.5px dashed var(--par-brd)}
-
-.sh{display:flex;align-items:flex-start;gap:9px;padding:8px 11px;cursor:pointer}
-.snum{width:26px;height:26px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-top:1px}
+.step-card.ctx{background:var(--ctx-bg);border-color:var(--ctx-brd)}
+.step-card.ok{background:var(--ok-bg);border-color:var(--ok-brd)}
+.step-card.var{background:var(--var-bg);border-color:var(--var-brd)}
+.step-card.alerta{background:var(--alerta-bg);border-color:var(--alerta-brd)}
+.sh{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;cursor:pointer}
+.snum{width:24px;height:24px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-top:1px}
 .dec .snum{background:var(--dec-bg);color:var(--dec-brd);border:1px solid var(--dec-brd)}
 .ret .snum{background:var(--ret-bg);color:var(--ret-brd);border:1px solid var(--ret-brd)}
 .par .snum{background:var(--par-bg);color:var(--par-brd);border:1px solid var(--par-brd)}
+.ctx .snum{background:var(--ctx-bg);color:var(--ctx-txt);border:1px solid var(--ctx-brd)}
+.ok .snum{background:var(--ok-bg);color:var(--ok-txt)}
+.var .snum{background:var(--var-bg);color:var(--var-txt)}
+.alerta .snum{background:var(--alerta-bg);color:var(--alerta-txt);border:1px solid var(--alerta-brd)}
 .smeta{flex:1;min-width:0}
-.stitle{font-size:13px;font-weight:600;line-height:1.3}
+.stitle{font-size:12px;font-weight:600;line-height:1.3}
 .dec .stitle{color:var(--dec-txt)}.ret .stitle{color:var(--ret-txt);font-style:italic}
-.par .stitle{color:var(--par-txt)}
-.sactor{font-size:11px;margin-top:2px;color:var(--muted)}
-.badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
-.sprazo{font-size:10px;font-weight:600;padding:2px 7px;border-radius:12px;background:#fff3cd;color:#856404;border:1px solid #ffc107}
+.par .stitle{color:var(--par-txt)}.ctx .stitle{color:var(--ctx-txt)}
+.ok .stitle{color:var(--ok-txt)}.var .stitle{color:var(--var-txt)}.alerta .stitle{color:var(--alerta-txt)}
+.sactor{font-size:10px;margin-top:2px;color:var(--muted)}
+.badges{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
+.sprazo{font-size:9px;font-weight:600;padding:1px 6px;border-radius:10px;background:#fff3cd;color:#856404;border:1px solid #ffc107}
 .sprazo.empty{background:#f8f9fa;color:#adb5bd;border-color:#dee2e6;font-weight:400;font-style:italic}
-.stipo{font-size:10px;padding:2px 7px;border-radius:12px;background:#f8f9fa;color:var(--muted);border:1px solid var(--border)}
-.slink{font-size:10px;font-weight:600;padding:2px 8px;border-radius:12px;background:#fff8e6;color:#633806;border:1px solid #FAC775;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:3px}
-.slink:hover{background:#FAEEDA}
-.scaret{font-size:11px;color:var(--muted);margin-left:auto;padding-top:3px;transition:transform .2s;flex-shrink:0}
+.slink{font-size:9px;font-weight:600;padding:1px 7px;border-radius:10px;background:#fff8e6;color:#633806;border:1px solid #FAC775;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:2px}
+.slink:hover{background:var(--f4l)}
+.par-badge{font-size:9px;background:#EAF3DE;color:#27500A;border:1px solid #9FE1CB;border-radius:4px;padding:2px 6px;margin:2px 0 3px 0;display:inline-block}
+.scaret{font-size:10px;color:var(--muted);margin-left:auto;padding-top:2px;transition:transform .2s;flex-shrink:0}
 .step-card.open .scaret{transform:rotate(180deg)}
-.sbody{display:none;padding:0 11px 11px 46px;border-top:1px solid var(--border)}
+.sbody{display:none;padding:0 10px 10px 42px;border-top:1px solid var(--border)}
 .dec .sbody{border-top-color:var(--dec-brd)}.ret .sbody{border-top-color:var(--ret-brd)}
-.par .sbody{border-top-color:var(--par-brd)}
+.par .sbody{border-top-color:var(--par-brd)}.ctx .sbody{border-top-color:var(--ctx-brd)}
 .step-card.open .sbody{display:block}
-.sfield{margin-top:8px}
-.sfield-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;gap:4px}
-.sfield-val{font-size:13px;color:var(--text);line-height:1.6;border:1px solid var(--border);border-radius:6px;padding:7px 9px;background:var(--bg);min-height:30px;outline:none;width:100%;white-space:pre-wrap}
-.sfield-val[contenteditable=true]:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 2px rgba(26,86,160,.08)}
+.sfield{margin-top:7px}
+.sfield-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
+.sfield-val{font-size:12px;color:var(--text);line-height:1.6;border:1px solid var(--border);border-radius:5px;padding:6px 8px;background:var(--bg);min-height:28px;outline:none;width:100%;white-space:pre-wrap}
+.sfield-val[contenteditable=true]:focus{border-color:var(--accent);background:#fff}
 .sfield-val[contenteditable=true]:empty:before{content:attr(data-ph);color:#aaa;font-style:italic}
 .prazo-val{background:#fff8e6;border-color:#ffc107}
 .prazo-val:focus{border-color:#fd7e14!important}
 .obs-val{background:#f8fdf5;border-color:#c0dd97}
+.arrow{text-align:center;color:var(--border2);font-size:14px;padding:1px 0}
 
-.arrow{text-align:center;color:var(--border2);font-size:15px;line-height:1;padding:1px 0}
-.par-badge{font-size:10px;background:#EAF3DE;color:#27500A;border:1px solid #9FE1CB;border-radius:5px;padding:3px 8px;margin:2px 0 4px 0;display:inline-block}
+/* ── NOTA RODAPÉ ── */
+.nota-rodape{border-radius:7px;padding:10px 14px;margin-top:14px;font-size:11px;line-height:1.6}
+.nota-rodape strong{font-weight:600}
+.nr-green{background:var(--ok-bg);border:1px solid var(--ok-brd);color:var(--ok-txt)}
+.nr-red{background:var(--alerta-bg);border:1px solid var(--alerta-brd);color:var(--alerta-txt)}
+.nr-purple{background:var(--usci-l);border:1px solid var(--usci-m);color:var(--usci)}
 
-#toast{position:fixed;bottom:22px;right:22px;background:var(--accent2);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
+/* ── TOAST ── */
+#toast{position:fixed;bottom:18px;right:18px;background:var(--accent2);color:#fff;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
 #toast.show{opacity:1;transform:translateY(0)}
 
 @media print{
   .topbar,.toolbar,.meta-card,.tempo-card{display:none}
+  .section{display:block!important}
   .sbody{display:block!important}
   .phase.collapsed .phase-body{display:flex!important}
   body{background:#fff}
@@ -140,434 +193,475 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 </head>
 <body>
 
+<!-- ══ TOPBAR ══ -->
 <div class="topbar">
   <div class="topbar-left">
-    <div class="t1">SES-DF — Processo de Trabalho SRP</div>
-    <div class="t2">Subsecretaria de Compras e Contratações — SUCOMP</div>
+    <div class="t1">SES-DF · Processo de Trabalho SRP</div>
+    <div class="t2">SUCOMP — Subsecretaria de Compras e Contratações</div>
+  </div>
+  <div class="topbar-nav">
+    <button class="nav-btn active" onclick="showSection('main',this)">Processo Principal</button>
+    <button class="nav-btn" onclick="showSection('amostras',this)">↗ Amostras</button>
+    <button class="nav-btn" onclick="showSection('recursos',this)">↗ Recursos</button>
+    <button class="nav-btn" onclick="showSection('usci',this)">↗ USCI</button>
   </div>
   <div class="topbar-actions">
-    <button class="btn btn-ghost" onclick="expandAll()">Expandir tudo</button>
-    <button class="btn btn-ghost" onclick="collapseAll()">Recolher tudo</button>
-    <button class="btn btn-primary" onclick="salvarHTML()">⬇ Salvar HTML</button>
+    <button class="btn btn-ghost" onclick="expandAll()">Expandir</button>
+    <button class="btn btn-ghost" onclick="collapseAll()">Recolher</button>
+    <button class="btn btn-primary" onclick="salvarHTML()">⬇ Salvar</button>
   </div>
 </div>
 
-<div class="main">
+<!-- ══════════════════════════════════════════
+     SEÇÃO 1 — PROCESSO PRINCIPAL
+══════════════════════════════════════════ -->
+<div class="section active" id="sec-main">
 
-  <!-- META -->
   <div class="meta-card">
-    <div class="meta-field"><label>Título do documento</label>
-      <input id="meta-titulo" value="Processo de Trabalho — Instrução de Aquisições via SRP"></div>
-    <div class="meta-field"><label>Versão</label><input id="meta-versao" value="1.1"></div>
-    <div class="meta-field"><label>Data de referência</label><input id="meta-data" type="date"></div>
+    <div class="meta-field"><label>Título</label><input id="meta-titulo" value="Processo de Trabalho — Instrução de Aquisições via SRP"></div>
+    <div class="meta-field"><label>Versão</label><input id="meta-versao" value="1.2"></div>
+    <div class="meta-field"><label>Data</label><input id="meta-data" type="date"></div>
     <div class="meta-field"><label>Elaborado por</label><input id="meta-elab" placeholder="Nome / Unidade"></div>
     <div class="meta-field"><label>Revisado por</label><input id="meta-rev" placeholder="Nome / Unidade"></div>
     <div class="meta-field"><label>Status</label>
-      <select id="meta-status">
-        <option>Em elaboração</option><option>Em revisão</option>
-        <option selected>Validado pela equipe</option><option>Aprovado</option><option>Publicado</option>
-      </select></div>
+      <select id="meta-status"><option>Em elaboração</option><option>Em revisão</option><option selected>Validado pela equipe</option><option>Aprovado</option><option>Publicado</option></select>
+    </div>
   </div>
 
-  <!-- QUADRO DE TEMPOS -->
   <div class="tempo-card">
     <div class="tempo-title">⏱ Estimativa de duração por categoria de processo</div>
     <div class="tempo-grid">
-      <div class="tempo-cat tc1">
-        <div class="tc-label">Cat. 1</div>
-        <div class="tc-du">115</div>
-        <div class="tc-sub">dias úteis</div>
-        <div class="tc-sub">≈ 161 corridos</div>
-        <div class="tc-sub" style="font-weight:600;margin-top:3px">≈ 5,2 meses</div>
-        <div class="tc-sub" style="margin-top:4px;font-style:italic">Fluxo simples</div>
-      </div>
-      <div class="tempo-cat tc2">
-        <div class="tc-label">Cat. 2</div>
-        <div class="tc-du">124</div>
-        <div class="tc-sub">dias úteis</div>
-        <div class="tc-sub">≈ 174 corridos</div>
-        <div class="tc-sub" style="font-weight:600;margin-top:3px">≈ 5,6 meses</div>
-        <div class="tc-sub" style="margin-top:4px;font-style:italic">+ USCI</div>
-      </div>
-      <div class="tempo-cat tc3">
-        <div class="tc-label">Cat. 3</div>
-        <div class="tc-du">139</div>
-        <div class="tc-sub">dias úteis</div>
-        <div class="tc-sub">≈ 195 corridos</div>
-        <div class="tc-sub" style="font-weight:600;margin-top:3px">≈ 6,3 meses</div>
-        <div class="tc-sub" style="margin-top:4px;font-style:italic">+ USCI + recursos</div>
-      </div>
-      <div class="tempo-cat tc4">
-        <div class="tc-label">Cat. 4</div>
-        <div class="tc-du">147</div>
-        <div class="tc-sub">dias úteis</div>
-        <div class="tc-sub">≈ 206 corridos</div>
-        <div class="tc-sub" style="font-weight:600;margin-top:3px">≈ 6,7 meses</div>
-        <div class="tc-sub" style="margin-top:4px;font-style:italic">+ USCI + rec. + amostras</div>
-      </div>
-      <div class="tempo-cat tc5">
-        <div class="tc-label">Cat. 5</div>
-        <div class="tc-du">158</div>
-        <div class="tc-sub">dias úteis</div>
-        <div class="tc-sub">≈ 221 corridos</div>
-        <div class="tc-sub" style="font-weight:600;margin-top:3px">≈ 7,2 meses</div>
-        <div class="tc-sub" style="margin-top:4px;font-style:italic">Todas as variáveis</div>
-      </div>
+      <div class="tempo-cat tc1"><div class="tc-label">Cat. 1</div><div class="tc-du">117</div><div class="tc-sub">dias úteis</div><div class="tc-sub">≈ 164 corridos</div><div class="tc-sub" style="font-weight:600;margin-top:2px">≈ 5,3 meses</div><div class="tc-sub" style="font-style:italic;margin-top:3px">Fluxo simples</div></div>
+      <div class="tempo-cat tc2"><div class="tc-label">Cat. 2</div><div class="tc-du">126</div><div class="tc-sub">dias úteis</div><div class="tc-sub">≈ 176 corridos</div><div class="tc-sub" style="font-weight:600;margin-top:2px">≈ 5,7 meses</div><div class="tc-sub" style="font-style:italic;margin-top:3px">+ USCI</div></div>
+      <div class="tempo-cat tc3"><div class="tc-label">Cat. 3</div><div class="tc-du">141</div><div class="tc-sub">dias úteis</div><div class="tc-sub">≈ 197 corridos</div><div class="tc-sub" style="font-weight:600;margin-top:2px">≈ 6,4 meses</div><div class="tc-sub" style="font-style:italic;margin-top:3px">+ USCI + recursos</div></div>
+      <div class="tempo-cat tc4"><div class="tc-label">Cat. 4</div><div class="tc-du">149</div><div class="tc-sub">dias úteis</div><div class="tc-sub">≈ 209 corridos</div><div class="tc-sub" style="font-weight:600;margin-top:2px">≈ 6,8 meses</div><div class="tc-sub" style="font-style:italic;margin-top:3px">+ USCI + rec. + amostras</div></div>
+      <div class="tempo-cat tc5"><div class="tc-label">Cat. 5</div><div class="tc-du">160</div><div class="tc-sub">dias úteis</div><div class="tc-sub">≈ 224 corridos</div><div class="tc-sub" style="font-weight:600;margin-top:2px">≈ 7,3 meses</div><div class="tc-sub" style="font-style:italic;margin-top:3px">Todas as variáveis</div></div>
     </div>
     <div class="tempo-nota">
-      <strong>Base de cálculo:</strong> prazos validados pela equipe SUCOMP (maio/2025) · Dias corridos = d.u. × 1,4 · Meses = d.u. ÷ 22 ·
-      <strong>Etapas variáveis consideradas:</strong> Cat.2 +USCI (9 d.u.) · Cat.3 +recursos (15 d.u.) · Cat.4 +amostras (8 d.u.) · Cat.5 +retornos+saneamento (11 d.u.) ·
-      <strong>Minuta de contrato (10b):</strong> paralela ao edital — não soma ao total ·
-      <strong>Etapa 4:</strong> 10 d.u. (simples) ou 15 d.u. (complexo) — base: 10 d.u. ·
-      <strong>Etapa 17:</strong> 8 d.u. (bens) ou 10 d.u. (serviços) — base: 8 d.u.
+      <strong>Base:</strong> prazos validados SUCOMP (maio/2025) · d.c. = d.u. × 1,4 · meses = d.u. ÷ 22 ·
+      <strong>Cat.2</strong> +USCI (9 d.u.) · <strong>Cat.3</strong> +recursos (15 d.u.) · <strong>Cat.4</strong> +amostras (8 d.u.) · <strong>Cat.5</strong> +retornos+saneamento (11 d.u.) ·
+      Minuta de contrato (10b) paralela — não soma · Etapa 4: base 10 d.u. · Etapa 17: base 8 d.u.
     </div>
   </div>
 
-  <!-- TOOLBAR -->
   <div class="toolbar">
     <span class="tlabel">Fase:</span>
-    <button class="btn-sm active" onclick="filtrar(this,'all')">Todas</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f1')">F1</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f2')">F2</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f3')">F3</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f4')">F4</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f5')">F5</button>
-    <button class="btn-sm" onclick="filtrar(this,'ph-f6')">F6</button>
-    <button class="btn-sm" onclick="filtrar(this,'tipo-dec')" style="margin-left:8px">Decisões</button>
-    <button class="btn-sm" onclick="filtrar(this,'tipo-ret')">Retornos</button>
+    <button class="btn-sm active" onclick="filtrar(this,'all','main')">Todas</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f1','main')">F1</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f2','main')">F2</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f3','main')">F3</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f4','main')">F4</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f5','main')">F5</button>
+    <button class="btn-sm" onclick="filtrar(this,'ph-f6','main')">F6</button>
+    <button class="btn-sm" onclick="filtrar(this,'tipo-dec','main')" style="margin-left:8px">Decisões</button>
+    <button class="btn-sm" onclick="filtrar(this,'tipo-ret','main')">Retornos</button>
   </div>
 
-  <!-- LEGEND -->
   <div class="legend">
     <div class="leg-item"><div class="leg-dot" style="background:#b5d4f4;border:1px solid #185fa5"></div>Etapa fixa</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#e8f0fa;border:1.5px dashed #2e6fc4"></div>Decisão / gateway</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#fff5ef;border:1.5px dashed #c05a1a"></div>Retorno / retrabalho</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#eaf5ee;border:1.5px dashed #3b6d11"></div>Etapa paralela</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e8f0fa;border:1.5px dashed #2e6fc4"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fff5ef;border:1.5px dashed #c05a1a"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#eaf5ee;border:1.5px dashed #3b6d11"></div>Paralela</div>
     <div class="leg-item"><div class="leg-dot" style="background:#fff3cd;border:1px solid #ffc107"></div>Prazo definido</div>
-    <div class="leg-item" style="font-style:italic;color:#aaa;font-size:10px">✏ Clique para editar qualquer campo</div>
+    <div class="leg-item" style="font-style:italic;color:#aaa;font-size:9px">✏ Clique para editar</div>
   </div>
 
-  <div id="fluxo"></div>
+  <div id="fluxo-main"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 2 — SUB-PROCESSO AMOSTRAS
+══════════════════════════════════════════ -->
+<div class="section" id="sec-amostras">
+  <div class="sec-header sh-amostras">
+    <div>
+      <h2>Sub-processo — Solicitação de Amostras</h2>
+      <p>Ativado na Etapa 18 quando o edital prevê exigência de amostra · Base legal: art. 67, Lei nº 14.133/2021</p>
+    </div>
+  </div>
+  <div class="aviso aviso-amber">
+    <strong>Atenção — prazo de envio:</strong> o prazo estabelecido no TR refere-se ao tempo que o fornecedor tem para <strong>postar</strong> a amostra. A esse prazo deve-se somar o <strong>tempo médio de trânsito (7 dias corridos)</strong>. O agente deve considerar ambos ao agendar a análise técnica: prazo de postagem (TR) + 7 dias corridos de trânsito = data mínima para início da análise.
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#b5d4f4;border:1px solid #185fa5"></div>Etapa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--var-bg);border:1px solid var(--var-brd)"></div>Variável</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e8f0fa;border:1.5px dashed #2e6fc4"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fff5ef;border:1.5px dashed #c05a1a"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ctx-bg);border:1px solid var(--ctx-brd)"></div>Contexto</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ok-bg);border:1px solid var(--ok-brd)"></div>Saída</div>
+  </div>
+  <div id="fluxo-amostras"></div>
+  <div class="nota-rodape nr-green">
+    <strong>Prazo total estimado por ciclo:</strong> postagem 5 d.u. (TR) + trânsito 7 dias corridos + análise técnica 3 d.u. ≈ <strong>8 dias úteis + 7 dias corridos por ciclo</strong>. Em caso de reprovação e convocação do próximo colocado, o ciclo reinicia e os prazos se acumulam.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 3 — SUB-PROCESSO RECURSOS
+══════════════════════════════════════════ -->
+<div class="section" id="sec-recursos">
+  <div class="sec-header sh-recursos">
+    <div>
+      <h2>Sub-processo — Recursos Administrativos</h2>
+      <p>Ativado após a Etapa 19 quando há manifestação de intenção de recurso · Arts. 165–168 Lei nº 14.133/2021 · Decreto Distrital nº 44.330/2023</p>
+    </div>
+  </div>
+  <div class="aviso aviso-red">
+    <strong>Atenção — prazos legais:</strong> os prazos recursais são estabelecidos em lei e <strong>não podem ser reduzidos</strong> pela Administração. O ComprasGov abre automaticamente <strong>10 minutos</strong> após o julgamento e após a habilitação para manifestação de intenção de recurso. As razões recursais têm prazo de <strong>3 dias úteis</strong>, assim como as contrarrazões. A autoridade superior dispõe de <strong>10 dias úteis</strong> para decidir (art. 168 da Lei nº 14.133/2021).
+  </div>
+  <div class="aviso aviso-blue" style="margin-top:-8px">
+    <strong>Base legal:</strong> Arts. 165–168 da Lei nº 14.133/2021 · Arts. 44 e 164–168 do Decreto Distrital nº 44.330/2023
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--recursos-l);border:1px solid var(--recursos)"></div>Etapa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e8f0fa;border:1.5px dashed #2e6fc4"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fff5ef;border:1.5px dashed #c05a1a"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--alerta-bg);border:1px solid var(--alerta-brd)"></div>Alerta legal</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ctx-bg);border:1px solid var(--ctx-brd)"></div>Contexto</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ok-bg);border:1px solid var(--ok-brd)"></div>Saída</div>
+  </div>
+  <div id="fluxo-recursos"></div>
+  <div class="nota-rodape nr-red">
+    <strong>Prazo total estimado:</strong> Sem autoridade superior ≈ 9–12 d.u. | Com autoridade superior ≈ 19–22 d.u. | Com retorno por decisão divergente: + prazos adicionais. Os prazos são legais e não podem ser reduzidos pela Administração.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SEÇÃO 4 — SUB-PROCESSO USCI
+══════════════════════════════════════════ -->
+<div class="section" id="sec-usci">
+  <div class="sec-header sh-usci">
+    <div>
+      <h2>Sub-processo — Análise da USCI</h2>
+      <p>Ativado na Fase 2 quando valor estimado ≥ R$ 10 milhões · Art. 169 Lei nº 14.133/2021 · Art. 8º Decreto Distrital nº 44.330/2023</p>
+    </div>
+  </div>
+  <div class="aviso aviso-purple">
+    <strong>Atenção:</strong> prazo da USCI (7 d.u.) a confirmar junto à unidade — valor referencial. A decisão sobre o escopo do retorno (etapa 2 ou etapas 2–5) deve ser <strong>documentada formalmente</strong> pela Assessoria SUCOMP para fins de rastreabilidade perante o TCDF.
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--usci-l);border:1px solid var(--usci)"></div>Etapa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#e8f0fa;border:1.5px dashed #2e6fc4"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fff5ef;border:1.5px dashed #c05a1a"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ctx-bg);border:1px solid var(--ctx-brd)"></div>Contexto</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ok-bg);border:1px solid var(--ok-brd)"></div>Saída</div>
+  </div>
+  <div id="fluxo-usci"></div>
+  <div class="nota-rodape nr-purple">
+    <strong>Prazo total estimado:</strong> Sem retorno ≈ 9 d.u. (USCI + Assessoria) | Com retorno à etapa 2: + prazos etapas 2–12 | Com retorno às etapas 2–5: + todos os prazos da fase de pesquisa de preços.
+  </div>
 </div>
 
 <div id="toast">✓ Arquivo salvo com sucesso</div>
 
 <script>
-const FASES = [
+// ══════════════════════════════════════════════════════
+// DADOS — PROCESSO PRINCIPAL
+// ══════════════════════════════════════════════════════
+const FASES_MAIN = [
 {id:"ph-f1",label:"F1",nome:"Fase 1 — Planejamento da contratação",du:0,etapas:[
-  {num:"1",tipo:"etapa",
-   titulo:"Elaboração dos artefatos de planejamento",
-   resp:"Área técnica / Área programadora",prazo:"",
+  {num:"1",tipo:"etapa",titulo:"Elaboração dos artefatos de planejamento",resp:"Área técnica / Área programadora",prazo:"",
    docs:"DFD · ETP · Mapa de Riscos · TR · Relatório PCA",
-   notas:"As áreas demandantes (área técnica e área programadora) elaboram o conjunto de documentos que formaliza a necessidade de aquisição e estrutura tecnicamente a contratação. O DFD registra a demanda; o ETP fundamenta a solução escolhida; o Mapa de Riscos identifica ameaças ao processo; o TR especifica o objeto; e o relatório do PCA vincula a contratação ao planejamento anual.",
-   obs:""},
+   notas:"As áreas demandantes elaboram o conjunto de documentos que formaliza a necessidade de aquisição. O DFD registra a demanda; o ETP fundamenta a solução escolhida; o Mapa de Riscos identifica ameaças ao processo; o TR especifica o objeto; e o relatório do PCA vincula a contratação ao planejamento anual.",obs:""},
 ]},
-{id:"ph-f2",label:"F2",nome:"Fase 2 — Instrução processual (SUCOMP)",du:52,etapas:[
-  {num:"2",tipo:"etapa",
-   titulo:"Análise prévia de conformidade",
-   resp:"GEAPRE / DIAQ",prazo:"5",
+{id:"ph-f2",label:"F2",nome:"Fase 2 — Instrução processual (SUCOMP)",du:54,etapas:[
+  {num:"2",tipo:"etapa",titulo:"Análise prévia de conformidade",resp:"GEAPRE / DIAQ",prazo:"5",
    docs:"Tabela de conformidade (checklist)",
-   notas:"A GEAPRE preenche tabela de conformidade (checklist) verificando se os atributos exigidos em cada artefato de planejamento — especialmente ETP, Mapa de Riscos e TR — foram devidamente contemplados pelas áreas demandantes. Esta é a primeira etapa formal realizada no âmbito da SUCOMP.",
-   obs:""},
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Conformidade processual?",
-   resp:"GEAPRE",prazo:"",
-   docs:"—",
-   notas:"Se todos os artefatos estiverem em conformidade, o processo segue para a GEPP. Caso contrário, a GEAPRE elabora nota técnica com os apontamentos identificados e devolve os autos à área demandante para ajustes. O ciclo se repete até que os autos estejam plenamente aptos.",
-   obs:""},
-  {num:"",tipo:"retorno",
-   titulo:"↩  Retorno à área demandante (se desconformidade)",
-   resp:"—",prazo:"5 (proposta)",
-   docs:"—",
-   notas:"A GEAPRE emite nota técnica detalhando os apontamentos e devolve os autos à área demandante. Após os ajustes, o processo retorna à GEAPRE para reanálise. O ciclo se repete até que os autos estejam em plena conformidade.",
+   notas:"A GEAPRE preenche tabela de conformidade verificando se os atributos exigidos em cada artefato de planejamento — especialmente ETP, Mapa de Riscos e TR — foram devidamente contemplados pelas áreas demandantes. Esta é a primeira etapa formal realizada no âmbito da SUCOMP.",obs:""},
+  {num:"",tipo:"decisao",titulo:"⬦  Conformidade processual?",resp:"GEAPRE",prazo:"",docs:"—",
+   notas:"Conforme → segue à GEPP. Desconforme → GEAPRE elabora nota técnica com apontamentos e devolve à área demandante. Ciclo se repete até conformidade plena.",obs:""},
+  {num:"",tipo:"retorno",titulo:"↩  Retorno à área demandante (se desconformidade)",resp:"—",prazo:"5 (proposta)",docs:"—",
+   notas:"A GEAPRE emite nota técnica detalhando os apontamentos e devolve os autos à área demandante para ajustes. Após os ajustes, o processo retorna à GEAPRE para reanálise.",
    obs:"Proposta: 5 dias úteis para a área demandante proceder os ajustes."},
-  {num:"3",tipo:"etapa",
-   titulo:"Pesquisa de preços",
-   resp:"GEPP / DIAQ",prazo:"28",
+  {num:"3",tipo:"etapa",titulo:"Pesquisa de preços",resp:"GEPP / DIAQ",prazo:"28",
    docs:"Registros de pesquisa · Planilha de cotações",
-   notas:"A GEPP realiza pesquisa de preços por item, observando a metodologia prevista na Lei nº 14.133/2021, no Decreto Distrital nº 44.330/2023 e demais instruções normativas. São priorizados bancos públicos de preços. Na ausência de referências públicas, recorre-se a sites especializados ou cotação direta com fornecedores. Validade do mapa: 1 ano (fontes exclusivamente públicas) ou 6 meses (outras fontes).",
-   obs:""},
-  {num:"4",tipo:"etapa",
-   titulo:"Validação técnica dos preços coletados",
-   resp:"Área técnica",prazo:"10 (simples) / 15 (complexo)",
+   notas:"A GEPP realiza pesquisa de preços por item, observando a metodologia prevista na Lei nº 14.133/2021, no Decreto Distrital nº 44.330/2023 e demais instruções normativas. São priorizados bancos públicos de preços. Na ausência de referências públicas, recorre-se a sites especializados ou cotação direta com fornecedores.",
+   obs:"Validade do mapa: 1 ano (fontes exclusivamente públicas) ou 6 meses (outras fontes)."},
+  {num:"4",tipo:"etapa",titulo:"Validação técnica dos preços coletados",resp:"Área técnica",prazo:"10 (simples) / 15 (complexo)",
    docs:"Parecer técnico",
-   notas:"Os preços coletados são encaminhados às áreas técnicas para análise e emissão de parecer técnico, a fim de confirmar que os valores identificados correspondem efetivamente aos produtos ou serviços demandados pela Secretaria de Saúde.",
-   obs:"O prazo pode sofrer alterações quando há demora na emissão dos pareceres técnicos pelas áreas. Sugestão: 10 dias úteis para objetos simples; 15 dias úteis para objetos complexos."},
-  {num:"5",tipo:"etapa",
-   titulo:"Elaboração do Mapa Comparativo de Preços",
-   resp:"GEPP / DIAQ",prazo:"2",
+   notas:"Os preços coletados são encaminhados às áreas técnicas para análise e emissão de parecer técnico, a fim de confirmar que os valores identificados correspondem efetivamente aos produtos ou serviços demandados.",
+   obs:"O prazo pode sofrer alterações quando há demora na emissão dos pareceres técnicos. Sugestão: 10 d.u. para objetos simples; 15 d.u. para objetos complexos."},
+  {num:"5",tipo:"etapa",titulo:"Elaboração do Mapa Comparativo de Preços",resp:"GEPP / DIAQ",prazo:"2",
    docs:"Mapa Comparativo de Preços",
-   notas:"A GEPP seleciona os preços considerados válidos e elabora o Mapa Comparativo de Preços, excluindo valores excessivamente elevados ou inexequíveis conforme metodologia legal, para definição do valor estimado da contratação.",
-   obs:""},
-  {num:"6",tipo:"etapa",
-   titulo:"Relatório da Pesquisa de Preços",
-   resp:"GEPP / DIAQ",prazo:"",
+   notas:"A GEPP seleciona os preços considerados válidos e elabora o Mapa Comparativo de Preços, excluindo valores excessivamente elevados ou inexequíveis conforme metodologia legal, para definição do valor estimado da contratação.",obs:""},
+  {num:"6",tipo:"etapa",titulo:"Relatório da Pesquisa de Preços",resp:"GEPP / DIAQ",prazo:"",
    docs:"Relatório da Pesquisa de Preços",
-   notas:"A GEPP elabora o Relatório da Pesquisa de Preços descrevendo toda a metodologia aplicada, consolidando as fontes de preços utilizadas, os pareceres técnicos recebidos das áreas demandantes e apresentando a estimativa do valor da contratação.",
-   obs:""},
-  {num:"7",tipo:"etapa",
-   titulo:"Lista de verificação + despacho de restituição",
-   resp:"GEPP / DIAQ",prazo:"",
+   notas:"A GEPP elabora o Relatório da Pesquisa de Preços descrevendo toda a metodologia aplicada, consolidando as fontes de preços utilizadas, os pareceres técnicos recebidos e apresentando a estimativa do valor da contratação.",obs:""},
+  {num:"7",tipo:"etapa",titulo:"Lista de verificação + despacho de restituição",resp:"GEPP / DIAQ",prazo:"",
    docs:"Lista de verificação · Despacho de restituição",
-   notas:"A GEPP elabora lista de verificação da pesquisa de preços, de modo a certificar que a metodologia foi adequadamente cumprida. Após, elabora despacho restituindo o processo à GEAPRE.",
-   obs:""},
-  {num:"8",tipo:"etapa",
-   titulo:"Nota técnica e encaminhamento à Assessoria",
-   resp:"GEAPRE",prazo:"3",
+   notas:"A GEPP elabora lista de verificação da pesquisa de preços, de modo a certificar que a metodologia foi adequadamente cumprida. Após, elabora despacho restituindo o processo à GEAPRE.",obs:""},
+  {num:"8",tipo:"etapa",titulo:"Nota técnica e encaminhamento à Assessoria",resp:"GEAPRE",prazo:"3",
    docs:"Nota técnica da GEAPRE",
-   notas:"Os autos retornam à GEAPRE, que elabora nota técnica consolidando sua análise e atestando a conformidade para seguimento da instrução processual e encaminha o processo à Assessoria SUCOMP.",
-   obs:""},
-  {num:"9",tipo:"etapa",
-   titulo:"Relatório Preliminar",
-   resp:"Assessoria SUCOMP",prazo:"3",
+   notas:"Os autos retornam à GEAPRE, que elabora nota técnica consolidando sua análise e atestando a conformidade para seguimento da instrução processual e encaminha o processo à Assessoria SUCOMP.",obs:""},
+  {num:"9",tipo:"etapa",titulo:"Relatório Preliminar",resp:"Assessoria SUCOMP",prazo:"5",
    docs:"Relatório Preliminar",
-   notas:"A Assessoria SUCOMP elabora o Relatório Preliminar, consolidando todas as informações processuais produzidas até o momento e relacionando os documentos apresentados. O relatório define: (1) o parecer referencial da PGDF que balizará juridicamente o processo — nº 59 para bens comuns, nº 44 para serviços ou nº 68 para materiais médicos e medicamentos; (2) o percentual de cota reservada à ME/EPP, quando aplicável, conforme orientação do Termo de Referência; e (3) a deliberação quanto à publicidade ou não dos preços no edital.",
-   obs:""},
-  {num:"10a",tipo:"etapa",
-   titulo:"Elaboração da minuta de edital",
-   resp:"GEIL",prazo:"5",
+   notas:"A Assessoria SUCOMP elabora o Relatório Preliminar, consolidando todas as informações processuais. Define: (1) parecer referencial da PGDF — nº 59 bens comuns, nº 44 serviços ou nº 68 materiais médicos/medicamentos; (2) % cota reservada à ME/EPP, quando aplicável; (3) deliberação quanto à publicidade ou não dos preços no edital.",obs:""},
+  {num:"10a",tipo:"etapa",titulo:"Elaboração da minuta de edital",resp:"GEIL",prazo:"5",
    docs:"Minuta de edital e lista de verificação",
-   notas:"A GEIL elabora a minuta do edital e a respectiva lista de verificação. Esta é uma etapa fixa — ocorre em todos os processos.",
-   obs:""},
-  {num:"10b",tipo:"paralelo",
-   titulo:"Elaboração da minuta de contrato  ⟳ paralela à etapa 10a",
-   resp:"GINFAC",prazo:"10",
+   notas:"A GEIL elabora a minuta do edital e a respectiva lista de verificação. Esta é uma etapa fixa — ocorre em todos os processos.",obs:""},
+  {num:"10b",tipo:"paralelo",titulo:"Elaboração da minuta de contrato  ⟳ paralela à etapa 10a",resp:"GINFAC",prazo:"10",
    docs:"Minuta de contrato",
-   notas:"A GINFAC elabora a minuta do contrato quando houver necessidade de formalização contratual. Esta etapa é variável — ocorre apenas quando a natureza do objeto exige contrato (art. 95 da Lei nº 14.133/2021). O prazo corre em paralelo com a etapa 10a e NÃO se acumula ao total.",
-   obs:"No SRP a regra é a Ata de Registro de Preços, não o contrato. A minuta de contrato é exceção. Prazo: 10 dias úteis para a GINFAC — paralelo aos 5 dias da GEIL, sem acréscimo ao tempo total."},
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Valor ≥ R$ 10 milhões?",
-   usci:true,
-   resp:"—",prazo:"7 (USCI — verificar)",
+   notas:"A GINFAC elabora a minuta do contrato quando houver necessidade de formalização contratual. Etapa variável — ocorre apenas quando a natureza do objeto exige contrato (art. 95 da Lei nº 14.133/2021). O prazo corre em PARALELO com a etapa 10a e NÃO se acumula ao total.",
+   obs:"No SRP a regra é a ARP, não o contrato. Prazo paralelo: 10 d.u. para a GINFAC — simultâneo aos 5 d.u. da GEIL, sem acréscimo ao tempo total."},
+  {num:"",tipo:"decisao",titulo:"⬦  Valor ≥ R$ 10 milhões?",resp:"—",prazo:"7 (USCI — a confirmar)",usci:true,
    docs:"Nota técnica da USCI",
-   notas:"Processos com valor superior a R$ 10 milhões são encaminhados obrigatoriamente à Unidade Setorial de Controle Interno (USCI) para análise e emissão de nota técnica, podendo haver recomendações de ajustes ou melhorias processuais.",
-   obs:"Prazo da USCI a confirmar."},
-  {num:"11",tipo:"etapa",
-   titulo:"Análise das recomendações da USCI",
-   resp:"Assessoria SUCOMP",prazo:"2",
+   notas:"Processos com valor superior a R$ 10 milhões são encaminhados obrigatoriamente à USCI para análise e emissão de nota técnica. Ver seção 'Sub-processo USCI' para o rito detalhado.",
+   obs:"Etapa variável. Ver aba Sub-processo USCI."},
+  {num:"11",tipo:"etapa",titulo:"Análise das recomendações da USCI",resp:"Assessoria SUCOMP",prazo:"2",
    docs:"Despacho para providências quanto aos encaminhamentos da USCI (quando aplicável)",
-   notas:"A Assessoria SUCOMP analisa as recomendações da USCI e, se necessário, as encaminha às áreas demandantes para saneamento. Caso o saneamento exija a retificação ou revisão do ETP ou do TR, após os ajustes esses documentos retornam à etapa 2 (GEAPRE). Entretanto, só precisarão passar novamente pelas etapas 3, 4 e 5 se houver mudanças que impactem nos preços apurados ou no valor estimado da contratação.",
-   obs:""},
-  {num:"",tipo:"retorno",
-   titulo:"↩  Retorno ao fluxo de instrução (pós-USCI, se aplicável)",
-   resp:"—",prazo:"2 (sugestão)",
-   docs:"—",
-   notas:"Se o saneamento das recomendações da USCI exigir retificação ou revisão do ETP ou do TR, os documentos retornam à etapa 2 (GEAPRE). Somente voltarão às etapas 3, 4, 5 e 6 se as alterações impactarem os preços apurados ou o valor estimado da contratação.",
+   notas:"A Assessoria SUCOMP analisa as recomendações da USCI e, se necessário, as encaminha às áreas demandantes para saneamento. Caso o saneamento exija a retificação ou revisão do ETP ou do TR, após os ajustes esses documentos retornam à etapa 2 (GEAPRE). Entretanto, só precisarão passar novamente pelas etapas 3, 4 e 5 se houver mudanças que impactem nos preços apurados ou no valor estimado da contratação.",obs:""},
+  {num:"",tipo:"retorno",titulo:"↩  Retorno ao fluxo de instrução (pós-USCI, se aplicável)",resp:"—",prazo:"2 (sugestão)",docs:"—",
+   notas:"Se o saneamento das recomendações da USCI exigir retificação ou revisão do ETP ou do TR, os documentos retornam à etapa 2 (GEAPRE). Somente voltarão às etapas 3–5 se as alterações impactarem os preços apurados ou o valor estimado da contratação.",
    obs:"Caso os autos retornem à fase de elaboração dos instrumentos de planejamento, retomam-se os prazos para cada uma das etapas."},
-  {num:"12",tipo:"etapa",
-   titulo:"Atesto",
-   resp:"Assessoria SUCOMP",prazo:"1",
+  {num:"12",tipo:"etapa",titulo:"Atesto",resp:"Assessoria SUCOMP",prazo:"1",
    docs:"Atesto",
    notas:"Após o saneamento de eventuais diligências e apontamentos, a Assessoria SUCOMP realiza o atesto da minuta de Edital e a conformidade da lista de verificação, certificando que os autos estão aptos para as autorizações finais.",
-   obs:"Observação OPME: aumentar prazo."},
+   obs:"Observação OPME: verificar necessidade de prazo maior."},
 ]},
 {id:"ph-f3",label:"F3",nome:"Fase 3 — Autorizações e designação",du:3,etapas:[
-  {num:"13",tipo:"etapa",
-   titulo:"Aprovação do TR · Autorização de despesa · Autorização de abertura",
-   resp:"Ordenador de despesas / SUAG",prazo:"2",
+  {num:"13",tipo:"etapa",titulo:"Aprovação do TR · Autorização de despesa · Autorização de abertura",resp:"Ordenador de despesas / SUAG",prazo:"2",
    docs:"Ato Autorizativo do Ordenador de Despesa",
-   notas:"O ordenador de despesas, vinculado à SUAG, emite três atos distintos e sequenciais: (1) aprovação do Termo de Referência; (2) autorização de despesa; e (3) autorização para abertura da licitação.",
-   obs:"A confirmar com SUAG."},
-  {num:"14",tipo:"etapa",
-   titulo:"Designação do agente de contratação",
-   resp:"DAQ",prazo:"1",
+   notas:"O ordenador de despesas, vinculado à SUAG, emite três atos distintos e sequenciais: (1) aprovação do Termo de Referência; (2) autorização de despesa; e (3) autorização para abertura da licitação.",obs:"A confirmar com SUAG."},
+  {num:"14",tipo:"etapa",titulo:"Designação do agente de contratação",resp:"DAQ",prazo:"1",
    docs:"Ato de designação",
-   notas:"Os autos retornam à DAQ/SUCOMP. A DAQ designa o agente de contratação responsável pela condução do certame.",
-   obs:""},
+   notas:"Os autos retornam à DAQ/SUCOMP. A DAQ designa o agente de contratação responsável pela condução do certame.",obs:""},
 ]},
 {id:"ph-f4",label:"F4",nome:"Fase 4 — Fase externa (licitação)",du:28,etapas:[
-  {num:"15",tipo:"etapa",
-   titulo:"Publicação do edital",
-   resp:"CCOMP",prazo:"3",
-   docs:"Edital publicado",
-   notas:"A CCOMP realiza a publicação do edital, dando início à fase externa da contratação e ao prazo para participação dos licitantes.",
-   obs:"Início da fase externa."},
-  {num:"16",tipo:"etapa",
-   titulo:"Prazo para impugnações e esclarecimentos com as respectivas respostas",
-   resp:"Agente de contratação + Áreas demandantes",prazo:"5",
+  {num:"15",tipo:"etapa",titulo:"Publicação do edital",resp:"CCOMP",prazo:"3",
+   docs:"Edital publicado",notas:"A CCOMP realiza a publicação do edital, dando início à fase externa da contratação e ao prazo para participação dos licitantes.",obs:"Início da fase externa."},
+  {num:"16",tipo:"etapa",titulo:"Prazo para impugnações e esclarecimentos com as respectivas respostas",resp:"Agente de contratação + Áreas demandantes",prazo:"5",
    docs:"Impugnações · Pedidos de esclarecimento · Respostas publicadas",
-   notas:"Após a publicação, abre-se prazo para impugnações ao edital e pedidos de esclarecimento. As respostas são elaboradas pelo agente de contratação e, quando necessário, pelas áreas demandantes.",
-   obs:""},
-  {num:"17",tipo:"etapa",
-   titulo:"Sessão pública do pregão",
-   resp:"Agente de contratação",prazo:"8",
+   notas:"Após a publicação, abre-se prazo para impugnações ao edital e pedidos de esclarecimento. As respostas são elaboradas pelo agente de contratação e, quando necessário, pelas áreas demandantes.",obs:""},
+  {num:"17",tipo:"etapa",titulo:"Sessão pública do pregão",resp:"Agente de contratação",prazo:"8",
    docs:"Registro no ComprasGov — chat e termo de julgamento",
-   notas:"Na data previamente agendada e estabelecida no edital, ocorre a sessão pública com análise das propostas recebidas dentro do prazo e realização do julgamento pelo agente de contratação.",
-   obs:"Ou 10 dias úteis para serviços."},
-  {num:"18",tipo:"etapa",amostras:true,
-   titulo:"Análise técnica das propostas",
-   resp:"Área técnica",prazo:"2",
+   notas:"Na data previamente agendada e estabelecida no edital, ocorre a sessão pública com análise das propostas recebidas dentro do prazo e realização do julgamento pelo agente de contratação.",obs:"Ou 10 dias úteis para serviços."},
+  {num:"18",tipo:"etapa",titulo:"Análise técnica das propostas",resp:"Área técnica",prazo:"2",amostras:true,
    docs:"Parecer técnico sobre a aceitabilidade do item da proposta · Parecer de amostras (quando exigido)",
-   notas:"As áreas técnicas participam da análise das propostas vencedoras, emitindo parecer técnico sobre a aceitabilidade do item da proposta, verificando se os produtos ou serviços ofertados atendem às especificações estabelecidas no TR. Nos casos em que o edital exige apresentação de amostras, compete igualmente às áreas técnicas analisar e emitir parecer sobre a conformidade dessas amostras.",
-   obs:"Se há solicitação de amostra, o prazo deve ser acrescido do tempo determinado para a apresentação da amostra pela empresa. Sugestão: definir no TR 5 dias úteis para envio da amostra."},
-  {num:"19",tipo:"etapa",
-   titulo:"Análise de habilitação",
-   resp:"Agente de contratação · Áreas técnicas (hab. técnica) · GCC/DICON/SUAG (qualif. econ.-fin.)",prazo:"3",
+   notas:"As áreas técnicas participam da análise das propostas vencedoras, emitindo parecer técnico sobre a aceitabilidade do item da proposta. Nos casos em que o edital exige amostras, compete igualmente às áreas técnicas analisar e emitir parecer sobre a conformidade. Ver seção 'Sub-processo Amostras' para o rito detalhado.",
+   obs:"Se há solicitação de amostra, somar ao prazo: tempo para postagem (TR) + 7 dias corridos de trânsito + 3 d.u. de análise técnica. Sugestão: definir no TR 5 dias úteis para postagem."},
+  {num:"19",tipo:"etapa",titulo:"Análise de habilitação",resp:"Agente de contratação · Áreas técnicas (hab. técnica) · GCC/DICON/SUAG (qualif. econ.-fin.)",prazo:"3",
    docs:"Documentos de habilitação · Parecer de habilitação técnica · Parecer de qualificação econômico-financeira",
-   notas:"O agente de contratação analisa as documentações de habilitação jurídica, fiscal, social e trabalhista. A habilitação técnica conta com apoio das áreas técnicas. A qualificação econômico-financeira (balanços e demonstrações contábeis) conta com apoio da Gerência de Conformidade Contábil — SES/SEGEA/SUAG/DICON/GCC.",
-   obs:""},
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Recursos interpostos?",
-   recursos:true,
-   resp:"—",prazo:"9",
-   docs:"—",
-   notas:"As empresas podem interpor recursos contra o resultado. O fluxo segue: (1) interposição de recurso; (2) razões recursais; (3) contrarrazões; (4) decisão do agente de contratação. Se a empresa não concordar, pode solicitar revisão pela autoridade superior. Agente/área técnica: 3 dias úteis. Autoridade superior: 10 dias úteis. Há obrigatoriedade de aguardar 3 dias úteis se há intenção de recurso.",
-   obs:"Agente de contratação/área técnica: 3 d.u. · Autoridade superior: 10 d.u. · Obrigatoriedade de aguardar 3 d.u. se há intenção de recurso."},
-  {num:"20",tipo:"etapa",
-   titulo:"Relatório final do certame",
-   resp:"Agente de contratação",prazo:"2",
+   notas:"O agente de contratação analisa as documentações de habilitação jurídica, fiscal, social e trabalhista. A habilitação técnica conta com apoio das áreas técnicas. A qualificação econômico-financeira conta com apoio da GCC/DICON/SUAG.",obs:""},
+  {num:"",tipo:"decisao",titulo:"⬦  Recursos interpostos?",resp:"—",prazo:"9",recursos:true,docs:"—",
+   notas:"As empresas podem interpor recursos contra o resultado. Ver seção 'Sub-processo Recursos' para o rito completo (arts. 165–168 da Lei nº 14.133/2021). Atenção: há obrigatoriedade de aguardar 3 d.u. mesmo sem manifestação de intenção de recurso.",
+   obs:"Agente/área técnica: 3 d.u. · Autoridade superior: 10 d.u. · Obrigatoriedade de aguardar 3 d.u. mesmo sem manifestação."},
+  {num:"20",tipo:"etapa",titulo:"Relatório final do certame",resp:"Agente de contratação",prazo:"2",
    docs:"Relatório final do certame",
-   notas:"O agente de contratação elabora relatório final do certame consolidando: existência de recurso para deliberação de autoridade superior, empresas vencedoras por item ou lote, itens desertos, itens fracassados, pareceres relacionados às habilitações e demais ocorrências relevantes.",
-   obs:""},
+   notas:"O agente de contratação elabora relatório final do certame consolidando: existência de recurso para deliberação de autoridade superior, empresas vencedoras por item ou lote, itens desertos, itens fracassados, pareceres relacionados às habilitações e demais ocorrências relevantes.",obs:""},
 ]},
 {id:"ph-f5",label:"F5",nome:"Fase 5 — Homologação",du:3,etapas:[
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Há recurso pendente?",
-   resp:"—",prazo:"6",
+  {num:"",tipo:"decisao",titulo:"⬦  Há recurso pendente?",resp:"—",prazo:"6",
    docs:"Despacho Opinativo e Decisão",
-   notas:"Se houver recurso ainda não resolvido, a Assessoria SUCOMP envia os autos à SECCIC, que analisa os fatos e a decisão do agente de contratação e emite opinativo quanto à procedência do recurso. Em seguida, os autos são enviados ao Gabinete da SES-DF para deliberação final do Secretário de Saúde. Após a decisão, os autos retornam à Assessoria SUCOMP.",
-   obs:""},
-  {num:"21",tipo:"etapa",
-   titulo:"Elaboração do Despacho de Homologação",
-   resp:"Assessoria SUCOMP",prazo:"1",
+   notas:"Se houver recurso ainda não resolvido, a Assessoria SUCOMP envia os autos à SECCIC, que analisa os fatos e a decisão do agente de contratação e emite opinativo. Em seguida, os autos são enviados ao Gabinete da SES-DF para deliberação final do Secretário de Saúde. Após a decisão, os autos retornam à Assessoria SUCOMP.",obs:""},
+  {num:"21",tipo:"etapa",titulo:"Elaboração do Despacho de Homologação",resp:"Assessoria SUCOMP",prazo:"1",
    docs:"Despacho de Homologação",
    notas:"A Assessoria SUCOMP elabora o Despacho de Homologação, consolidando o resultado do certame e formalizando a proposta para aprovação pelo(a) Subsecretário(a) de Compras e Contratações.",
    obs:"Quando há itens desertos ou fracassados, o processo é encaminhado às áreas demandantes para ciência e providências."},
-  {num:"22",tipo:"etapa",
-   titulo:"Homologação do certame",
-   resp:"Subsecretário(a) SUCOMP",prazo:"1",
+  {num:"22",tipo:"etapa",titulo:"Homologação do certame",resp:"Subsecretário(a) SUCOMP",prazo:"1",
    docs:"Ato de homologação",
-   notas:"O(A) Subsecretário(a) de Compras e Contratações homologa o certame, encerrando a fase competitiva e autorizando o seguimento para formalização contratual.",
-   obs:""},
-  {num:"23",tipo:"etapa",
-   titulo:"Lista de verificação final do certame",
-   resp:"CCOMP",prazo:"1",
+   notas:"O(A) Subsecretário(a) de Compras e Contratações homologa o certame, encerrando a fase competitiva e autorizando o seguimento para formalização contratual.",obs:""},
+  {num:"23",tipo:"etapa",titulo:"Lista de verificação final do certame",resp:"CCOMP",prazo:"1",
    docs:"Publicação do resultado no DODF · Lista de verificação final · Comunicação às áreas demandantes (quando aplicável)",
-   notas:"A CCOMP elabora a lista de verificação final do certame e publica o resultado.",
-   obs:""},
+   notas:"A CCOMP elabora a lista de verificação final do certame e publica o resultado.",obs:""},
 ]},
 {id:"ph-f6",label:"F6",nome:"Fase 6 — Formalização da Ata de Registro de Preços",du:32,etapas:[
-  {num:"24",tipo:"etapa",
-   titulo:"Encaminhamento à GINFAC",
-   resp:"CCOMP → DFACC → GINFAC",prazo:"2",
+  {num:"24",tipo:"etapa",titulo:"Encaminhamento à GINFAC",resp:"CCOMP → DFACC → GINFAC",prazo:"2",
    docs:"Despacho de encaminhamento",
-   notas:"A CCOMP encaminha o processo à GINFAC, dando início à fase de formalização da contratação. Na formalização da Ata de Registro de Preços, a reserva orçamentária só é exigida quando houver execução efetiva decorrente da ata. A DFACC faz o encaminhamento à GINFAC.",
-   obs:""},
-  {num:"25",tipo:"etapa",
-   titulo:"Notificação e coleta de documentos",
-   resp:"GINFAC",prazo:"2",
+   notas:"A CCOMP encaminha o processo à GINFAC, dando início à fase de formalização da contratação. Na formalização da ARP, a reserva orçamentária só é exigida quando houver execução efetiva decorrente da ata. A DFACC faz o encaminhamento à GINFAC.",obs:""},
+  {num:"25",tipo:"etapa",titulo:"Notificação e coleta de documentos",resp:"GINFAC",prazo:"2",
    docs:"E-mail/Ofício de notificação · Documentos do fornecedor",
-   notas:"A GINFAC notifica a empresa via ofício por e-mail, solicitando a apresentação dos documentos previstos no edital para a fase de formalização da Ata de Registro de Preços, verificando também a necessidade de atualização de certidões ou outros documentos apresentados na etapa de habilitação.",
-   obs:""},
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Envio das documentações pelas empresas",
-   resp:"Fornecedor",prazo:"3",
-   docs:"—",
+   notas:"A GINFAC notifica a empresa via ofício por e-mail, solicitando a apresentação dos documentos previstos no edital para a fase de formalização da ARP, verificando também a necessidade de atualização de certidões ou outros documentos apresentados na etapa de habilitação.",obs:""},
+  {num:"",tipo:"decisao",titulo:"⬦  Envio das documentações pelas empresas",resp:"Fornecedor",prazo:"3",docs:"—",
    notas:"A empresa envia as documentações previstas em edital para a assinatura da ARP.",
    obs:"Reiteração à empresa no caso de não envio. Nessas situações o prazo pode ser alterado."},
-  {num:"26",tipo:"etapa",
-   titulo:"Análise da documentação recebida",
-   resp:"GINFAC · Áreas competentes",prazo:"5",
+  {num:"26",tipo:"etapa",titulo:"Análise da documentação recebida",resp:"GINFAC · Áreas competentes",prazo:"5",
    docs:"Pareceres das áreas competentes",
-   notas:"Recebida a documentação, a GINFAC, quando aplicável, encaminha os documentos às áreas competentes para emissão de parecer. Documentações técnicas são encaminhadas às áreas técnicas. Documentos econômico-financeiros, como balanços e demonstrações contábeis, seguem para análise da área especializada.",
-   obs:"Prazo máximo."},
-  {num:"",tipo:"retorno",
-   titulo:"↩  Solicitação de saneamento de pendências ao fornecedor",
-   resp:"GINFAC",prazo:"2",
-   docs:"—",
-   notas:"Se as pendências documentais puderem ser sanadas, a empresa é notificada pela GINFAC para sanar a pendência em 24h.",
-   obs:""},
-  {num:"",tipo:"decisao",
-   titulo:"⬦  Parecer técnico acerca do saneamento das pendências",
-   resp:"Áreas competentes",prazo:"2",
+   notas:"Recebida a documentação, a GINFAC, quando aplicável, encaminha os documentos às áreas competentes para emissão de parecer. Documentações técnicas são encaminhadas às áreas técnicas. Documentos econômico-financeiros seguem para análise da área especializada.",obs:"Prazo máximo."},
+  {num:"",tipo:"retorno",titulo:"↩  Solicitação de saneamento de pendências ao fornecedor",resp:"GINFAC",prazo:"2",docs:"—",
+   notas:"Se as pendências documentais puderem ser sanadas, a empresa é notificada pela GINFAC para sanar a pendência.",obs:""},
+  {num:"",tipo:"decisao",titulo:"⬦  Parecer técnico acerca do saneamento das pendências",resp:"Áreas competentes",prazo:"2",
    docs:"Pareceres das áreas competentes",
    notas:"A área avalia se a empresa conseguiu sanar as pendências apontadas e emite novo parecer.",
    obs:"Prazo máximo sugerido. Caso a área não cumpra, pode impactar no andamento processual."},
-  {num:"27",tipo:"etapa",
-   titulo:"Elaboração da ARP",
-   resp:"GINFAC",prazo:"7",
+  {num:"27",tipo:"etapa",titulo:"Elaboração da ARP",resp:"GINFAC",prazo:"7",
    docs:"Ata de Registro de Preços",
-   notas:"A GINFAC elabora a ARP com os dados do fornecedor e as especificações dos itens para os quais restou vencedor.",
-   obs:""},
-  {num:"28",tipo:"etapa",
-   titulo:"Formalização e assinatura da ARP",
-   resp:"GINFAC · Fornecedor · Secretário SES-DF",prazo:"5",
+   notas:"A GINFAC elabora a ARP com os dados do fornecedor e as especificações dos itens para os quais restou vencedor.",obs:""},
+  {num:"28",tipo:"etapa",titulo:"Formalização e assinatura da ARP",resp:"GINFAC · Fornecedor · Secretário SES-DF",prazo:"5",
    docs:"Ata de Registro de Preços assinada",
-   notas:"Estando toda a documentação regular e o processo devidamente saneado, procede-se à formalização da Ata de Registro de Preços. O instrumento é disponibilizado para assinatura do fornecedor e, posteriormente, do Secretário de Saúde.",
+   notas:"Estando toda a documentação regular e o processo devidamente saneado, procede-se à formalização da ARP. O instrumento é disponibilizado para assinatura do fornecedor e, posteriormente, do Secretário de Saúde.",
    obs:"3 dias para a empresa e 2 dias para o Secretário. A ausência de assinatura impacta no andamento processual."},
-  {num:"29",tipo:"etapa",
-   titulo:"Publicidade oficial",
-   resp:"GINFAC",prazo:"2",
-   docs:"Publicação no DODF",
-   notas:"A GINFAC providencia a publicidade oficial do instrumento firmado (ata ou contrato) no DODF.",
-   obs:""},
-  {num:"30",tipo:"etapa",
-   titulo:"Cadastro da Ata no SIS-Materiais",
-   resp:"GINFAC",prazo:"2",
-   docs:"Registro no SIS-Materiais",
-   notas:"A GINFAC cadastra a Ata e suas respectivas informações no SIS-Materiais.",
-   obs:""},
-  {num:"31",tipo:"etapa",
-   titulo:"Cadastro da Ata no PNCP",
-   resp:"GINFAC",prazo:"1",
-   docs:"Registro no PNCP",
-   notas:"A GINFAC cadastra a Ata e suas respectivas informações no PNCP.",
-   obs:""},
+  {num:"29",tipo:"etapa",titulo:"Publicidade oficial",resp:"GINFAC",prazo:"2",
+   docs:"Publicação no DODF",notas:"A GINFAC providencia a publicidade oficial do instrumento firmado (ata ou contrato) no DODF.",obs:""},
+  {num:"30",tipo:"etapa",titulo:"Cadastro da Ata no SIS-Materiais",resp:"GINFAC",prazo:"2",
+   docs:"Registro no SIS-Materiais",notas:"A GINFAC cadastra a Ata e suas respectivas informações no SIS-Materiais.",obs:""},
+  {num:"31",tipo:"etapa",titulo:"Cadastro da Ata no PNCP",resp:"GINFAC",prazo:"1",
+   docs:"Registro no PNCP",notas:"A GINFAC cadastra a Ata e suas respectivas informações no PNCP.",obs:""},
 ]},
 ];
 
+// ══════════════════════════════════════════════════════
+// DADOS — SUB-PROCESSO AMOSTRAS
+// ══════════════════════════════════════════════════════
+const ETAPAS_AMOSTRAS = [
+  {cls:"ctx",num:"17",titulo:"Etapa 17 — Sessão pública (contexto)",resp:"Agente de contratação",prazo:"8",
+   docs:"Registro no ComprasGov — chat e termo de julgamento",
+   notas:"Ao final da etapa de lances, o agente identifica o vencedor provisório de cada item que exige amostra. A sessão pública é suspensa nesses itens até a conclusão da análise técnica da amostra.",
+   obs:"A exigência de amostra deve estar prevista no edital e no TR com critérios objetivos de avaliação."},
+  {cls:"",num:"A1",titulo:"Notificação formal para postagem da amostra",resp:"Agente de contratação",prazo:"",
+   docs:"Notificação do agente de contratação para envio da amostra",
+   notas:"O agente notifica formalmente a empresa vencedora provisória para postagem da amostra no prazo previsto no TR. A notificação deve especificar: endereço de destino, quantidade, identificação do item, prazo para postagem e prazo de trânsito estimado.",
+   obs:"Prazo para postagem é contado a partir da notificação, não da sessão pública. A notificação é ato imediato, sem prazo próprio."},
+  {cls:"var",num:"A2",titulo:"Postagem da amostra pelo fornecedor",resp:"Fornecedor",prazo:"5 (TR)",
+   docs:"Comprovante de postagem",
+   notas:"O fornecedor posta a amostra dentro do prazo estabelecido no TR. O comprovante de postagem deve ser apresentado à SES-DF imediatamente após o envio.",
+   obs:"Prazo sugerido a ser considerado no TR: 5 dias úteis para postagem. Não postagem no prazo = desclassificação do item."},
+  {cls:"var",num:"A2t",titulo:"Trânsito da amostra",resp:"Transportadora / Correios",prazo:"7 dias corridos (média)",
+   docs:"Código de rastreamento",
+   notas:"Período entre a postagem pelo fornecedor e o recebimento físico pela unidade designada. O prazo médio de trânsito é de 7 dias corridos e deve ser considerado pelo agente ao agendar a data da análise técnica. O recebimento deve ser protocolado pela unidade receptora.",
+   obs:"O prazo de trânsito não é controlado pela Administração. Atrasos no trânsito não são imputáveis ao fornecedor, desde que o comprovante de postagem no prazo seja apresentado."},
+  {cls:"",num:"A3",titulo:"Análise técnica da amostra",resp:"Área técnica",prazo:"3",
+   docs:"Parecer técnico de amostra (APROVADA ou REPROVADA)",
+   notas:"A área técnica avalia a amostra conforme os critérios objetivos estabelecidos no TR e no edital. O parecer deve conter: descrição da amostra recebida, critérios avaliados, resultado (APROVADA / REPROVADA) e justificativa técnica detalhada.",
+   obs:"Os critérios de avaliação devem estar definidos no TR antes da sessão pública."},
+  {cls:"dec",num:"⬦",titulo:"Amostra aprovada?",resp:"Área técnica → Agente de contratação",prazo:"",docs:"",
+   notas:"Aprovada → retoma o fluxo principal na etapa 19 (análise de habilitação).\nReprovada → desclassificação e convocação do próximo colocado (art. 67, §3º, Lei nº 14.133/2021).",obs:""},
+  {cls:"var",num:"A5",titulo:"Desclassificação e convocação do próximo colocado",resp:"Agente de contratação",prazo:"1",
+   docs:"Registro de desclassificação no ComprasGov · Notificação ao próximo colocado",
+   notas:"Em caso de reprovação, o agente registra a desclassificação no ComprasGov, notifica a empresa reprovada e convoca o próximo colocado para apresentar amostra. O ciclo A1–A3 reinicia para o novo convocado.",
+   obs:"O ciclo pode repetir-se para cada colocado até que uma amostra seja aprovada ou o item seja declarado fracassado."},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno ao ciclo — próximo colocado",resp:"—",prazo:"",docs:"—",
+   notas:"Se houver próximo colocado, o fluxo retorna à etapa A1 (notificação para postagem). Cada ciclo acrescenta aprox. 8 d.u. + 7 dias corridos ao prazo total.",obs:""},
+  {cls:"var",num:"A6",titulo:"Item declarado fracassado",resp:"Agente de contratação",prazo:"1",
+   docs:"Registro no relatório final do certame",
+   notas:"Se nenhum dos convocados tiver amostra aprovada, o item é declarado fracassado. O agente registra no relatório final e comunica imediatamente às áreas demandantes para providências alternativas, sem aguardar a homologação.",
+   obs:"Comunicar imediatamente à área demandante ao final da sessão — não aguardar a homologação."},
+  {cls:"ok",num:"→19",titulo:"Saída — retorno ao fluxo principal (Etapa 19)",resp:"—",prazo:"",docs:"",
+   notas:"Com a amostra aprovada, o fluxo retoma na etapa 19 (análise de habilitação). O prazo total do processo é acrescido do tempo consumido no sub-processo.",obs:""},
+];
+
+// ══════════════════════════════════════════════════════
+// DADOS — SUB-PROCESSO RECURSOS
+// ══════════════════════════════════════════════════════
+const ETAPAS_RECURSOS = [
+  {cls:"ctx",num:"19",titulo:"Etapa 19 — Análise de habilitação (contexto)",resp:"Agente de contratação + Áreas técnicas + GCC/DICON/SUAG",prazo:"3",
+   docs:"Documentos de habilitação · Pareceres",
+   notas:"Ao encerrar a análise de habilitação, o agente declara o vencedor. A partir desse momento o ComprasGov abre automaticamente o prazo para manifestação de intenção de recurso.",obs:""},
+  {cls:"",num:"R1",titulo:"Prazo de manifestação de intenção de recurso",resp:"Agente de contratação",prazo:"10 min (sistema)",
+   docs:"Registro no ComprasGov",
+   notas:"O sistema ComprasGov abre automaticamente um prazo de 10 minutos tanto após o julgamento quanto após a habilitação para que as empresas manifestem a intenção de interpor recurso. Trata-se de ato automático do sistema, sem necessidade de ação do agente para abertura do prazo.",
+   obs:"Prazo automático do ComprasGov — 10 minutos após o julgamento e 10 minutos após a habilitação. O agente deve aguardar o encerramento desses prazos antes de prosseguir."},
+  {cls:"dec",num:"⬦",titulo:"Houve manifestação de intenção de recurso?",resp:"Agente de contratação",prazo:"",docs:"",
+   notas:"Não → processo segue para o relatório final do certame (etapa 20).\nSim → abre-se prazo para apresentação das razões recursais.",obs:""},
+  {cls:"",num:"R2",titulo:"Apresentação das razões recursais",resp:"Licitante recorrente",prazo:"3",
+   docs:"Petição de recurso com razões",
+   notas:"O licitante que manifestou intenção apresenta as razões do recurso dentro do prazo legal de 3 dias úteis. O recurso deve ser fundamentado e específico — alegações genéricas podem ser inadmitidas.",
+   obs:"Prazo legal: 3 dias úteis (art. 165, §1º, Lei nº 14.133/2021). O agente deve verificar a tempestividade e a regularidade formal do recurso antes de abrir o prazo de contrarrazões."},
+  {cls:"",num:"R3",titulo:"Apresentação de contrarrazões pelos demais licitantes",resp:"Demais licitantes",prazo:"3",
+   docs:"Contrarrazões (quando apresentadas)",
+   notas:"Os demais licitantes interessados têm 3 dias úteis para apresentar contrarrazões. O agente deve notificar todos os licitantes da interposição do recurso e do prazo para contrarrazões.",
+   obs:"Prazo legal: 3 dias úteis (art. 165, §2º, Lei nº 14.133/2021). A ausência de contrarrazões não prejudica o julgamento do recurso."},
+  {cls:"",num:"R4",titulo:"Análise e decisão pelo agente de contratação",resp:"Agente de contratação · Área técnica (quando aplicável)",prazo:"3",
+   docs:"Decisão fundamentada registrada no ComprasGov",
+   notas:"O agente analisa as razões e contrarrazões e profere decisão fundamentada. Quando o recurso envolver aspectos técnicos, a área técnica é consultada para emissão de parecer que subsidie a decisão.",
+   obs:"A decisão deve ser fundamentada e publicada no ComprasGov."},
+  {cls:"dec",num:"⬦",titulo:"Recurso provido pelo agente?",resp:"Agente de contratação",prazo:"",docs:"",
+   notas:"Provido → agente corrige o resultado e encaminha para relatório final (etapa 20).\nNão provido → licitante pode solicitar revisão pela autoridade superior.",obs:""},
+  {cls:"",num:"20",titulo:"Elaboração do Relatório Final do Certame",resp:"Agente de contratação",prazo:"2",
+   docs:"Relatório final do certame",
+   notas:"Encerrada a fase recursal, o agente elabora o relatório final do certame, consolidando o resultado definitivo com o desfecho dos recursos.",obs:""},
+  {cls:"dec",num:"⬦",titulo:"Licitante solicita revisão pela autoridade superior?",resp:"Licitante recorrente",prazo:"",docs:"",
+   notas:"Sim → encaminha ao(à) Subsecretário(a) SUCOMP, que segue para a SECCIC que subsidia a Decisão pelo(a) Secretário(a) de Saúde.\nNão → segue para o relatório final do certame.",obs:""},
+  {cls:"alerta",num:"R5",titulo:"Revisão pela autoridade superior",resp:"SUCOMP → SECCIC → Gabinete SES-DF",prazo:"10",
+   docs:"Decisão da autoridade superior (Secretário de Saúde) registrada no processo",
+   notas:"A autoridade superior analisa o recurso e a decisão do agente e profere decisão final e irrecorrível na esfera administrativa. A decisão deve ser fundamentada e pode manter, reformar ou anular a decisão do agente.",
+   obs:"Prazo legal: 10 dias úteis (art. 168 da Lei nº 14.133/2021). A decisão encerra a fase recursal administrativa."},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno ao agente de contratação (decisão divergente)",resp:"Gabinete SES-DF → SECCIC → SUCOMP",prazo:"5 (proposta)",docs:"—",
+   notas:"Quando a autoridade superior decide de forma divergente da decisão do agente de contratação, os autos retornam à CCOMP para que o agente implemente a nova decisão e ajuste o resultado do certame.",
+   obs:"Proposta: 5 dias úteis para implementação dos ajustes."},
+  {cls:"ok",num:"→21",titulo:"Saída — retorno ao fluxo principal (Etapa 21)",resp:"—",prazo:"",docs:"",
+   notas:"Caso a autoridade superior ratifique a decisão do agente de contratação, o fluxo retoma na etapa 21 (Elaboração do Despacho de Homologação). O prazo total do processo é acrescido do tempo consumido no sub-processo.",obs:""},
+];
+
+// ══════════════════════════════════════════════════════
+// DADOS — SUB-PROCESSO USCI
+// ══════════════════════════════════════════════════════
+const ETAPAS_USCI = [
+  {cls:"ctx",num:"10",titulo:"Etapa 10 — Minutas de edital e contrato (contexto)",resp:"GEIL · GINFAC",prazo:"5/10",
+   docs:"Minuta de edital · Minuta de contrato (quando aplicável)",
+   notas:"Após a elaboração das minutas, verifica-se se o valor estimado da contratação é igual ou superior a R$ 10 milhões. Em caso positivo, os autos são encaminhados à USCI antes do atesto.",obs:""},
+  {cls:"",num:"U1",titulo:"Encaminhamento dos autos à USCI",resp:"GEIL",prazo:"1",
+   docs:"Despacho de encaminhamento à USCI",
+   notas:"A GEIL elabora despacho encaminhando os autos à Unidade Setorial de Controle Interno (USCI) para análise e emissão de nota técnica. O encaminhamento deve identificar o valor estimado, o objeto e os documentos que compõem os autos.",obs:""},
+  {cls:"",num:"U2",titulo:"Análise da USCI",resp:"USCI",prazo:"7",
+   docs:"Nota técnica da USCI",
+   notas:"A USCI analisa os autos verificando: conformidade dos artefatos de planejamento com a legislação, adequação da pesquisa de preços, regularidade das minutas de edital e contrato, e identificação de riscos ou impropriedades. A nota técnica pode concluir: (1) sem recomendações; (2) com recomendações de ajuste; ou (3) com recomendação de não publicação.",
+   obs:"Prazo a confirmar junto à USCI. O valor de 7 dias úteis é referencial."},
+  {cls:"dec",num:"⬦",titulo:"A nota técnica contém recomendações?",resp:"Assessoria SUCOMP",prazo:"",docs:"",
+   notas:"Sem recomendações → processo segue para a etapa 11 (análise Assessoria SUCOMP) e depois atesto.\nCom recomendações → Assessoria SUCOMP analisa cada ponto e decide o encaminhamento.",obs:""},
+  {cls:"",num:"U3",titulo:"Análise das recomendações pela Assessoria SUCOMP",resp:"Assessoria SUCOMP",prazo:"2",
+   docs:"Despacho de encaminhamento para providências (quando aplicável)",
+   notas:"A Assessoria SUCOMP analisa cada recomendação da USCI e encaminha cada um dos apontamentos para manifestação das áreas responsáveis. O impacto das recomendações pode ser classificado em: (a) sem impacto no fluxo — sanável por ajuste nos autos sem retorno; (b) impacto restrito à etapa 2 — exige retificação de ETP ou TR, retorna à GEAPRE; (c) impacto nas etapas 2 a 5 — exige revisão que afeta os preços apurados, retorna às etapas de pesquisa.",
+   obs:"A decisão sobre o escopo do retorno deve ser documentada formalmente no processo para fins de rastreabilidade e controle externo (TCDF)."},
+  {cls:"dec",num:"⬦",titulo:"Qual o impacto das recomendações?",resp:"Assessoria SUCOMP",prazo:"",docs:"",
+   notas:"Sem impacto → sanamento nos autos, segue para atesto.\nImpacto na etapa 2 → após ajustes nos instrumentos pelas áreas demandantes retorna à GEAPRE para ajuste do ETP/TR.\nImpacto nas etapas 2–5 → após ajustes nos instrumentos pelas áreas demandantes retorna à GEAPRE e às etapas de pesquisa de preços.",obs:""},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno à etapa 2 (ajuste ETP/TR)",resp:"Área demandante",prazo:"5 (sugestão)",
+   docs:"ETP e/ou TR revisados",
+   notas:"Os documentos revisados retornam à GEAPRE para reanálise de conformidade (etapa 2). O processo percorre novamente as etapas 2 a 12 (além daquelas relacionadas à USCI, uma vez que não há necessidade de ressubmissão). Só voltará às etapas 3–5 se os ajustes impactarem os preços apurados.",
+   obs:"Caso os autos retornem à fase de elaboração dos instrumentos de planejamento, retomam-se os prazos para cada uma das etapas."},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno às etapas 2–5 (ajuste que impacta preços)",resp:"Área demandante · GEPP",prazo:"",
+   docs:"ETP e/ou TR revisados · Nova pesquisa de preços (quando necessária)",
+   notas:"Quando os ajustes afetam as especificações do objeto de forma que impactem nos preços apurados ou no valor estimado da contratação, o processo retorna às etapas de pesquisa de preços (etapas 3 a 5), percorrendo novamente toda a fase de instrução.",
+   obs:"Retomam-se os prazos de cada etapa desde o início."},
+  {cls:"ok",num:"→12",titulo:"Saída — retorno ao fluxo principal (Etapa 12 — Atesto)",resp:"Assessoria SUCOMP",prazo:"",docs:"",
+   notas:"Após o saneamento das recomendações da USCI (ou confirmada a ausência de recomendações), o processo retorna ao fluxo principal na etapa 12 (atesto da Assessoria SUCOMP).",obs:""},
+];
+
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-function renderCard(e,phId){
-  const cls = e.tipo==='decisao'?'dec':e.tipo==='retorno'?'ret':e.tipo==='paralelo'?'par':'';
-  const icon = e.tipo==='decisao'?'⬦':e.tipo==='retorno'?'↩':e.tipo==='paralelo'?'∥':'';
-  const numEl = e.num ? e.num : icon;
+function renderCard(e, sectionId){
+  const cls = e.tipo==='decisao'?'dec':e.tipo==='retorno'?'ret':e.tipo==='paralelo'?'par':(e.cls||'');
+  const numIcon = e.num||(e.tipo==='decisao'?'⬦':e.tipo==='retorno'?'↩':(e.cls==='dec'?'⬦':e.cls==='ret'?'↩':e.cls==='ok'?'→':e.cls==='ctx'?'◎':''));
   const prazoEl = e.prazo
     ? `<span class="sprazo">${esc(e.prazo)} d.u.</span>`
-    : (e.tipo==='etapa'?`<span class="sprazo empty">prazo a definir</span>`:'');
+    : ((e.tipo==='etapa'||e.cls==='')?'<span class="sprazo empty">prazo a definir</span>':'');
+  const linkAmostras = e.amostras
+    ? `<a class="slink" onclick="showSection('amostras',null)">↗ Sub-processo Amostras</a>` : '';
   const linkUSCI = e.usci
-    ? `<a class="slink" href="Subprocesso_USCI_SRP_SES-DF.html" target="_blank">↗ Sub-processo USCI</a>`
-    : '';
+    ? `<a class="slink" onclick="showSection('usci',null)">↗ Sub-processo USCI</a>` : '';
   const linkRecursos = e.recursos
-    ? `<a class="slink" href="Subprocesso_Recursos_SRP_SES-DF.html" target="_blank">↗ Sub-processo de recursos</a>`
-    : '';
-  const linkAmostra = e.amostras
-    ? `<a class="slink" href="Fluxo_Amostras_SRP_SES-DF.html" target="_blank">↗ Sub-processo de amostras</a>`
-    : '';
-  const parNota = e.tipo==='paralelo'
-    ? `<div class="par-badge">⟳ Etapa paralela — prazo não se acumula ao total da fase</div>` : '';
-  const docsF = e.docs && e.docs!=='—' ? `
-    <div class="sfield"><div class="sfield-label">📄 Documentos gerados</div>
-      <div class="sfield-val" contenteditable="true">${esc(e.docs)}</div></div>` : '';
-  const notasF = e.notas ? `
-    <div class="sfield"><div class="sfield-label">📝 Notas explicativas</div>
-      <div class="sfield-val" contenteditable="true">${esc(e.notas)}</div></div>` : '';
-  const prazoF = `
-    <div class="sfield"><div class="sfield-label">⏱ Prazo (dias úteis)</div>
-      <div class="sfield-val prazo-val" contenteditable="true" data-ph="A definir">${esc(e.prazo||'')}</div></div>`;
-  const obsF = `
-    <div class="sfield"><div class="sfield-label">⚠️ Observações</div>
-      <div class="sfield-val obs-val" contenteditable="true" data-ph="Sem observações">${esc(e.obs||'')}</div></div>`;
-  return `<div class="step-card ${cls}" data-tipo="${e.tipo}" data-phase="${phId}">
+    ? `<a class="slink" onclick="showSection('recursos',null)">↗ Sub-processo Recursos</a>` : '';
+  const parBadge = (e.tipo==='paralelo')
+    ? `<div class="par-badge">⟳ Etapa paralela — prazo não se acumula ao total</div>` : '';
+  const docsF = (e.docs&&e.docs!=='—'&&e.docs!=='')
+    ? `<div class="sfield"><div class="sfield-label">📄 Documentos</div><div class="sfield-val" contenteditable="true">${esc(e.docs)}</div></div>` : '';
+  const notasF = e.notas
+    ? `<div class="sfield"><div class="sfield-label">📝 Notas explicativas</div><div class="sfield-val" contenteditable="true">${esc(e.notas)}</div></div>` : '';
+  const prazoF = `<div class="sfield"><div class="sfield-label">⏱ Prazo (dias úteis)</div><div class="sfield-val prazo-val" contenteditable="true" data-ph="A definir">${esc(e.prazo||'')}</div></div>`;
+  const obsF = `<div class="sfield"><div class="sfield-label">⚠️ Observações</div><div class="sfield-val obs-val" contenteditable="true" data-ph="Sem observações">${esc(e.obs||'')}</div></div>`;
+
+  return `<div class="step-card ${cls}" data-tipo="${e.tipo||e.cls||''}" data-section="${sectionId}">
     <div class="sh" onclick="this.parentElement.classList.toggle('open')">
-      <div class="snum">${esc(numEl)}</div>
+      <div class="snum">${esc(numIcon)}</div>
       <div class="smeta">
         <div class="stitle">${esc(e.titulo)}</div>
         <div class="sactor">${esc(e.resp)}</div>
-        <div class="badges">${prazoEl}${linkAmostra}${linkUSCI}${linkRecursos}</div>
+        <div class="badges">${prazoEl}${linkAmostras}${linkUSCI}${linkRecursos}</div>
       </div>
       <div class="scaret">▼</div>
     </div>
-    <div class="sbody">${parNota}${docsF}${notasF}${prazoF}${obsF}</div>
+    <div class="sbody">${parBadge}${docsF}${notasF}${prazoF}${obsF}</div>
   </div>`;
 }
 
 function renderFase(f){
   const n = f.etapas.filter(e=>e.tipo==='etapa'||e.tipo==='paralelo').length;
-  const duLabel = f.du ? `<span class="phase-du">${f.du} d.u. fixos</span>` : '';
-  const body = f.etapas.map(e=>`<div class="arrow">↓</div>${renderCard(e,f.id)}`).join('');
+  const duLabel = f.du ? `<span class="phase-du">${f.du} d.u.</span>` : '';
+  const body = f.etapas.map(e=>`<div class="arrow">↓</div>${renderCard(e,'main')}`).join('');
   return `<div class="phase ${f.id}" id="${f.id}">
-    <div class="phase-header" onclick="toggleFase(this)">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('collapsed')">
       <span class="phase-badge">${f.label}</span>
       <span>${f.nome}</span>
       <span class="phase-count">(${n} etapa${n!==1?'s':''})</span>
@@ -575,18 +669,47 @@ function renderFase(f){
       <span class="phase-chevron">▼</span>
     </div>
     <div class="phase-body">${body}</div>
-  </div><div class="arrow" style="margin:4px 0">↓</div>`;
+  </div><div class="arrow" style="margin:3px 0">↓</div>`;
 }
 
-document.getElementById('fluxo').innerHTML = FASES.map(renderFase).join('');
-document.getElementById('meta-data').valueAsDate = new Date();
+function renderSubFluxo(etapas, containerId, sectionId){
+  const html = etapas.map((e,i)=>
+    `${i>0?'<div class="arrow">↓</div>':''}${renderCard(e,sectionId)}`
+  ).join('');
+  document.getElementById(containerId).innerHTML = html;
+}
 
+// Render main
+document.getElementById('fluxo-main').innerHTML = FASES_MAIN.map(renderFase).join('');
+document.getElementById('meta-data').valueAsDate = new Date();
 document.querySelectorAll('.phase-badge').forEach(b=>{
   b.style.background = window.getComputedStyle(b.parentElement).color;
-  b.style.color = '#fff'; b.style.opacity = '1';
+  b.style.color='#fff'; b.style.opacity='1';
 });
 
-function toggleFase(h){h.parentElement.classList.toggle('collapsed')}
+// Render sub-processos
+renderSubFluxo(ETAPAS_AMOSTRAS,'fluxo-amostras','amostras');
+renderSubFluxo(ETAPAS_RECURSOS,'fluxo-recursos','recursos');
+renderSubFluxo(ETAPAS_USCI,'fluxo-usci','usci');
+
+// ══════════════════════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════════════════════
+function showSection(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else {
+    const map={'main':0,'amostras':1,'recursos':2,'usci':3};
+    document.querySelectorAll('.nav-btn')[map[id]]?.classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+// ══════════════════════════════════════════════════════
+// AÇÕES GLOBAIS
+// ══════════════════════════════════════════════════════
 function expandAll(){
   document.querySelectorAll('.phase').forEach(p=>p.classList.remove('collapsed'));
   document.querySelectorAll('.step-card').forEach(s=>s.classList.add('open'));
@@ -595,38 +718,36 @@ function collapseAll(){
   document.querySelectorAll('.phase').forEach(p=>p.classList.add('collapsed'));
   document.querySelectorAll('.step-card').forEach(s=>s.classList.remove('open'));
 }
-function filtrar(btn,key){
-  document.querySelectorAll('.toolbar .btn-sm').forEach(b=>b.classList.remove('active'));
+function filtrar(btn, key, sec){
+  document.querySelectorAll(`#sec-${sec} .toolbar .btn-sm`).forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.step-card,.arrow').forEach(el=>el.style.display='');
-  document.querySelectorAll('.phase').forEach(el=>el.style.display='');
-  document.querySelectorAll('.phase + .arrow').forEach(el=>el.style.display='');
+  document.querySelectorAll(`#sec-${sec} .step-card`).forEach(c=>c.style.display='');
+  document.querySelectorAll(`#sec-${sec} .phase`).forEach(p=>p.style.display='');
+  document.querySelectorAll(`#sec-${sec} .phase + .arrow`).forEach(a=>a.style.display='');
+  document.querySelectorAll(`#sec-${sec} .phase-body .arrow`).forEach(a=>a.style.display='');
   if(key==='all') return;
   if(key.startsWith('ph-')){
-    document.querySelectorAll('.phase').forEach(p=>{
-      const show = p.classList.contains(key);
-      p.style.display = show?'':'none';
-      const next = p.nextElementSibling;
-      if(next&&next.classList.contains('arrow')) next.style.display = show?'':'none';
+    document.querySelectorAll(`#sec-${sec} .phase`).forEach(p=>{
+      const show=p.classList.contains(key);
+      p.style.display=show?'':'none';
+      const nx=p.nextElementSibling;
+      if(nx?.classList.contains('arrow')) nx.style.display=show?'':'none';
     });
   } else if(key==='tipo-dec'||key==='tipo-ret'){
-    const tipo = key==='tipo-dec'?'decisao':'retorno';
-    document.querySelectorAll('.step-card').forEach(c=>{
-      c.style.display = c.dataset.tipo===tipo?'':'none';
+    const t=key==='tipo-dec'?'decisao':'retorno';
+    document.querySelectorAll(`#sec-${sec} .step-card`).forEach(c=>{
+      c.style.display=c.dataset.tipo===t?'':'none';
     });
-    document.querySelectorAll('.phase-body .arrow').forEach(a=>a.style.display='none');
+    document.querySelectorAll(`#sec-${sec} .phase-body .arrow`).forEach(a=>a.style.display='none');
   }
 }
 function salvarHTML(){
-  const html = '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
-  const blob = new Blob([html],{type:'text/html'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'Processo_SRP_SES-DF.html';
-  a.click();
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  const b=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='SRP_SES-DF_Processo_Completo.html'; a.click();
+  const t=document.getElementById('toast');
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
 </body>
