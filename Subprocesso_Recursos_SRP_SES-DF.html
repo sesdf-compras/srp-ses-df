@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub-processo — Recursos · SRP / SES-DF</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f9;--surface:#fff;--border:#d8dde6;--border2:#c2cad8;
+  --text:#1a1f2e;--muted:#5a6278;--accent:#1a56a0;--accent2:#0e3a72;
+  --blue50:#E6F1FB;--blue600:#185FA5;--blue800:#0C447C;
+  --amber50:#FAEEDA;--amber600:#854F0B;--amber800:#633806;
+  --green50:#EAF3DE;--green600:#3B6D11;--green800:#27500A;
+  --red50:#FCEBEB;--red600:#A32D2D;--red800:#501313;
+  --gray50:#F1EFE8;--gray600:#5F5E5A;
+  --dec-bg:#E8F0FA;--dec-brd:#2E6FC4;--dec-txt:#0C447C;
+  --ret-bg:#FFF5EF;--ret-brd:#C05A1A;--ret-txt:#712B13;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.topbar{background:#501313;color:#fff;padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.t1{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.t2{font-size:11px;opacity:.65;margin-top:1px}
+.topbar-actions{display:flex;gap:8px}
+.btn{padding:5px 13px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.22)}
+.btn-primary{background:#fff;color:#501313}.btn-primary:hover{background:#FCEBEB}
+.main{max-width:860px;margin:0 auto;padding:24px 20px 80px}
+.header-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.header-card h1{font-size:17px;font-weight:600;color:#501313;margin-bottom:4px}
+.header-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.volta{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--accent);text-decoration:none;margin-bottom:14px;padding:4px 10px;border:1px solid var(--border2);border-radius:5px;background:var(--surface)}
+.volta:hover{background:var(--blue50)}
+.base-legal{background:#F2F7FB;border-left:3px solid #185FA5;border-radius:0 7px 7px 0;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#0C447C;line-height:1.6}
+.base-legal strong{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px;padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.flow{display:flex;flex-direction:column;gap:5px}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:box-shadow .15s}
+.step-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.step-card.dec{background:var(--dec-bg);border:1.5px dashed var(--dec-brd)}
+.step-card.ret{background:var(--ret-bg);border:1.5px dashed var(--ret-brd)}
+.step-card.ctx{background:var(--gray50);border-color:#B4B2A9}
+.step-card.alerta{background:var(--red50);border-color:#E24B4A}
+.step-card.ok{background:var(--green50);border-color:#97C459}
+.sh{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;cursor:pointer}
+.snum{width:26px;height:26px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-top:1px}
+.step-card .snum{background:var(--red50);color:var(--red600)}
+.dec .snum{background:var(--dec-bg);color:var(--dec-brd);border:1px solid var(--dec-brd)}
+.ret .snum{background:var(--ret-bg);color:var(--ret-brd);border:1px solid var(--ret-brd)}
+.ctx .snum{background:var(--gray50);color:var(--gray600);border:1px solid #B4B2A9}
+.alerta .snum{background:var(--red50);color:#791F1F;border:1px solid #E24B4A}
+.ok .snum{background:var(--green50);color:var(--green800)}
+.smeta{flex:1;min-width:0}
+.stitle{font-size:13px;font-weight:600;line-height:1.3}
+.dec .stitle{color:var(--dec-txt)}.ret .stitle{color:var(--ret-txt);font-style:italic}
+.ctx .stitle{color:var(--gray600)}.alerta .stitle{color:#791F1F}.ok .stitle{color:var(--green800)}
+.sactor{font-size:11px;margin-top:2px;color:var(--muted)}
+.sprazo{font-size:10px;font-weight:600;padding:2px 7px;border-radius:12px;background:#fff3cd;color:#856404;border:1px solid #ffc107;display:inline-block;margin-top:3px}
+.sprazo.empty{background:#f8f9fa;color:#adb5bd;border-color:#dee2e6;font-weight:400;font-style:italic}
+.slegal{font-size:10px;padding:2px 7px;border-radius:12px;background:#E6F1FB;color:#0C447C;border:1px solid #B5D4F4;display:inline-block;margin-top:3px;margin-left:4px}
+.scaret{font-size:11px;color:var(--muted);margin-left:auto;padding-top:3px;transition:transform .2s;flex-shrink:0}
+.step-card.open .scaret{transform:rotate(180deg)}
+.sbody{display:none;padding:0 12px 12px 47px;border-top:1px solid var(--border)}
+.dec .sbody{border-top-color:var(--dec-brd)}.ret .sbody{border-top-color:var(--ret-brd)}
+.step-card.open .sbody{display:block}
+.sfield{margin-top:8px}
+.sfield-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
+.sfield-val{font-size:13px;color:var(--text);line-height:1.6;border:1px solid var(--border);border-radius:6px;padding:7px 9px;background:var(--bg);min-height:30px;outline:none;width:100%;white-space:pre-wrap}
+.sfield-val[contenteditable=true]:focus{border-color:var(--accent);background:#fff}
+.sfield-val[contenteditable=true]:empty:before{content:attr(data-ph);color:#aaa;font-style:italic}
+.prazo-val{background:#fff8e6;border-color:#ffc107}
+.obs-val{background:#f8fdf5;border-color:#c0dd97}
+.arrow{text-align:center;color:var(--border2);font-size:15px;padding:1px 0}
+.tempo-box{background:var(--red50);border:1px solid #E24B4A;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:12px;color:#791F1F;line-height:1.7}
+.tempo-box strong{font-weight:600}
+#toast{position:fixed;bottom:22px;right:22px;background:#501313;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
+#toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><div class="t1">Sub-processo — Recursos · SRP / SES-DF</div>
+    <div class="t2">Fase 4 — Fase externa · Após etapa 19</div></div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" onclick="document.querySelectorAll('.step-card').forEach(s=>s.classList.add('open'))">Expandir tudo</button>
+    <button class="btn btn-ghost" onclick="document.querySelectorAll('.step-card').forEach(s=>s.classList.remove('open'))">Recolher tudo</button>
+    <button class="btn btn-primary" onclick="salvar()">⬇ Salvar HTML</button>
+  </div>
+</div>
+<div class="main">
+  <a class="volta" href="Processo_SRP_SES-DF_v3.html">← Voltar ao processo principal</a>
+  <div class="header-card">
+    <h1>Sub-processo — Recursos Administrativos</h1>
+    <p>Ativado após a etapa 19 (análise de habilitação) quando há manifestação de intenção de recurso por parte de algum licitante. O rito segue os arts. 165 a 168 da Lei nº 14.133/2021 e o Decreto Distrital nº 44.330/2023.</p>
+  </div>
+  <div class="base-legal">
+    <strong>Base legal:</strong> Arts. 165–168 da Lei nº 14.133/2021 · Arts. 44 e 164–168 do Decreto Distrital nº 44.330/2023 ·
+    Prazo de manifestação de intenção: 3 dias úteis · Prazo para razões: 3 dias úteis · Prazo para contrarrazões: 3 dias úteis ·
+    Prazo para decisão pela autoridade superior: 10 dias úteis.
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red50);border:1px solid #E24B4A"></div>Etapa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--dec-bg);border:1.5px dashed var(--dec-brd)"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ret-bg);border:1.5px dashed var(--ret-brd)"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gray50);border:1px solid #B4B2A9"></div>Contexto</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green50);border:1px solid #97C459"></div>Saída</div>
+    <div class="leg-item" style="font-size:10px;color:#aaa;font-style:italic">✏ Clique para editar</div>
+  </div>
+  <div class="flow" id="flow"></div>
+  <div class="tempo-box">
+    <strong>Prazo total estimado do sub-processo:</strong><br>
+    Caminho sem autoridade superior: 3 (intenção) + 3 (razões) + 3 (contrarrazões) + decisão do agente = <strong>aprox. 9–12 dias úteis</strong>.<br>
+    Caminho com autoridade superior: + 10 dias úteis adicionais = <strong>aprox. 19–22 dias úteis</strong>.<br>
+    <strong>Atenção:</strong> os prazos são legais e não podem ser reduzidos pela Administração.
+  </div>
+</div>
+<div id="toast">✓ Arquivo salvo</div>
+<script>
+const E=[
+  {cls:"ctx",num:"19",titulo:"Etapa 19 — Análise de habilitação (contexto)",
+   resp:"Agente de contratação + Áreas técnicas + GCC/DICON/SUAG",prazo:"3",
+   docs:"Documentos de habilitação · Pareceres",
+   notas:"Ao encerrar a análise de habilitação, o agente declara o vencedor. A partir desse momento abre-se o prazo para manifestação de intenção de recurso.",
+   obs:""},
+  {cls:"",num:"R1",titulo:"Prazo de manifestação de intenção de recurso",
+   resp:"Agente de contratação",prazo:"3",
+   docs:"Registro no ComprasGov",
+   notas:"Após o julgamento e habilitação, o agente abre prazo de 3 dias úteis para que os licitantes manifestem intenção de interpor recurso. A Administração é obrigada a aguardar o encerramento desse prazo antes de encaminhar o processo para homologação, ainda que nenhuma empresa tenha manifestado intenção.",
+   obs:"Obrigatoriedade legal de aguardar os 3 dias úteis mesmo sem manifestação de intenção (art. 165 da Lei nº 14.133/2021)."},
+  {cls:"dec",num:"⬦",titulo:"Houve manifestação de intenção de recurso?",
+   resp:"Agente de contratação",prazo:"",
+   docs:"",
+   notas:"Não → processo segue para o relatório final do certame (etapa 20) e posteriormente para homologação.\nSim → abre-se prazo para apresentação das razões recursais.",
+   obs:""},
+  {cls:"",num:"R2",titulo:"Apresentação das razões recursais",
+   resp:"Licitante recorrente",prazo:"3",
+   docs:"Petição de recurso com razões",
+   notas:"O licitante que manifestou intenção apresenta as razões do recurso dentro do prazo legal de 3 dias úteis. O recurso deve ser fundamentado e específico — alegações genéricas podem ser inadmitidas.",
+   obs:"Prazo legal: 3 dias úteis (art. 165, §1º, Lei nº 14.133/2021). O agente deve verificar a tempestividade e a regularidade formal do recurso antes de abrir o prazo de contrarrazões."},
+  {cls:"",num:"R3",titulo:"Apresentação de contrarrazões pelos demais licitantes",
+   resp:"Demais licitantes",prazo:"3",
+   docs:"Contrarrazões (quando apresentadas)",
+   notas:"Os demais licitantes interessados têm 3 dias úteis para apresentar contrarrazões ao recurso interposto. O agente deve notificar todos os licitantes da interposição do recurso e do prazo para contrarrazões.",
+   obs:"Prazo legal: 3 dias úteis (art. 165, §2º, Lei nº 14.133/2021). A ausência de contrarrazões não prejudica o julgamento do recurso."},
+  {cls:"",num:"R4",titulo:"Análise e decisão pelo agente de contratação",
+   resp:"Agente de contratação · Área técnica (quando aplicável)",prazo:"3",
+   docs:"Decisão fundamentada registrada no ComprasGov",
+   notas:"O agente de contratação analisa as razões e contrarrazões e profere decisão fundamentada. Quando o recurso envolver aspectos técnicos (aceitabilidade de proposta, habilitação técnica), a área técnica é consultada para emissão de parecer que subsidie a decisão.",
+   obs:"A decisão deve ser fundamentada e publicada no ComprasGov. O prazo de 3 dias úteis refere-se à prática interna — a legislação não fixa prazo específico para essa etapa, mas o princípio da eficiência exige celeridade."},
+  {cls:"dec",num:"⬦",titulo:"Recurso provido pelo agente?",
+   resp:"Agente de contratação",prazo:"",
+   docs:"",
+   notas:"Provido total ou parcialmente → o agente corrige o resultado conforme o recurso e encaminha para relatório final.\nNão provido → o licitante pode solicitar revisão pela autoridade superior (Subsecretário(a) SUCOMP) no prazo legal.\nSe não houver pedido de revisão → encaminha para relatório final.",
+   obs:""},
+  {cls:"dec",num:"⬦",titulo:"Licitante solicita revisão pela autoridade superior?",
+   resp:"Licitante recorrente",prazo:"",
+   docs:"",
+   notas:"Sim → o processo é encaminhado à autoridade superior (Subsecretário(a) SUCOMP) para análise e decisão final.\nNão → o processo segue para o relatório final do certame.",
+   obs:""},
+  {cls:"alerta",num:"R5",titulo:"Revisão pela autoridade superior — Subsecretário(a) SUCOMP",
+   resp:"Subsecretário(a) SUCOMP",prazo:"10",
+   docs:"Decisão da autoridade superior registrada no processo",
+   notas:"A autoridade superior analisa o recurso e a decisão do agente de contratação e profere decisão final e irrecorrível na esfera administrativa. A decisão deve ser fundamentada e pode manter, reformar ou anular a decisão do agente.",
+   obs:"Prazo legal: 10 dias úteis (art. 168 da Lei nº 14.133/2021). A decisão da autoridade superior encerra a fase recursal administrativa. Licitantes inconformados poderão buscar a via judicial."},
+  {cls:"ok",num:"→20",titulo:"Saída — retorno ao fluxo principal (Etapa 20)",
+   resp:"Agente de contratação",prazo:"",
+   docs:"",
+   notas:"Encerrada a fase recursal, o agente elabora o relatório final do certame (etapa 20), consolidando o resultado definitivo com o desfecho dos recursos.",
+   obs:""},
+];
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+document.getElementById('flow').innerHTML=E.map((e,i)=>`
+  ${i>0?'<div class="arrow">↓</div>':''}
+  <div class="step-card ${e.cls}">
+    <div class="sh" onclick="this.parentElement.classList.toggle('open')">
+      <div class="snum">${esc(e.num)}</div>
+      <div class="smeta">
+        <div class="stitle">${esc(e.titulo)}</div>
+        <div class="sactor">${esc(e.resp)}</div>
+        ${e.prazo?`<span class="sprazo">${esc(e.prazo)} d.u.</span>`:(e.cls===''||e.cls==='alerta'?'<span class="sprazo empty">prazo a definir</span>':'')}
+      </div>
+      <div class="scaret">▼</div>
+    </div>
+    <div class="sbody">
+      ${e.docs?`<div class="sfield"><div class="sfield-label">📄 Documentos</div><div class="sfield-val" contenteditable="true">${esc(e.docs)}</div></div>`:''}
+      ${e.notas?`<div class="sfield"><div class="sfield-label">📝 Notas explicativas</div><div class="sfield-val" contenteditable="true">${esc(e.notas)}</div></div>`:''}
+      <div class="sfield"><div class="sfield-label">⏱ Prazo (dias úteis)</div><div class="sfield-val prazo-val" contenteditable="true" data-ph="A definir">${esc(e.prazo||'')}</div></div>
+      <div class="sfield"><div class="sfield-label">⚠️ Observações</div><div class="sfield-val obs-val" contenteditable="true" data-ph="Sem observações">${esc(e.obs||'')}</div></div>
+    </div>
+  </div>`).join('');
+function salvar(){
+  const b=new Blob(['<!DOCTYPE html>\n'+document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='Subprocesso_Recursos_SRP_SES-DF.html';a.click();
+  const t=document.getElementById('toast');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+</script>
+</body>
+</html>

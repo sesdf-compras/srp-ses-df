@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub-processo — USCI · SRP / SES-DF</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f9;--surface:#fff;--border:#d8dde6;--border2:#c2cad8;
+  --text:#1a1f2e;--muted:#5a6278;--accent:#1a56a0;--accent2:#0e3a72;
+  --blue50:#E6F1FB;--blue600:#185FA5;--blue800:#0C447C;
+  --purple50:#EEEDFE;--purple600:#534AB7;--purple800:#3C3489;
+  --green50:#EAF3DE;--green600:#3B6D11;--green800:#27500A;
+  --amber50:#FAEEDA;--amber600:#854F0B;--amber800:#633806;
+  --gray50:#F1EFE8;--gray600:#5F5E5A;
+  --dec-bg:#E8F0FA;--dec-brd:#2E6FC4;--dec-txt:#0C447C;
+  --ret-bg:#FFF5EF;--ret-brd:#C05A1A;--ret-txt:#712B13;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.topbar{background:#26215C;color:#fff;padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.t1{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.t2{font-size:11px;opacity:.65;margin-top:1px}
+.topbar-actions{display:flex;gap:8px}
+.btn{padding:5px 13px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.22)}
+.btn-primary{background:#fff;color:#26215C}.btn-primary:hover{background:var(--purple50)}
+.main{max-width:860px;margin:0 auto;padding:24px 20px 80px}
+.header-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.header-card h1{font-size:17px;font-weight:600;color:#26215C;margin-bottom:4px}
+.header-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.volta{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--accent);text-decoration:none;margin-bottom:14px;padding:4px 10px;border:1px solid var(--border2);border-radius:5px;background:var(--surface)}
+.volta:hover{background:var(--blue50)}
+.base-legal{background:#F2EEF9;border-left:3px solid var(--purple600);border-radius:0 7px 7px 0;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--purple800);line-height:1.6}
+.base-legal strong{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px;padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.flow{display:flex;flex-direction:column;gap:5px}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:box-shadow .15s}
+.step-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.step-card.dec{background:var(--dec-bg);border:1.5px dashed var(--dec-brd)}
+.step-card.ret{background:var(--ret-bg);border:1.5px dashed var(--ret-brd)}
+.step-card.ctx{background:var(--gray50);border-color:#B4B2A9}
+.step-card.ok{background:var(--green50);border-color:#97C459}
+.sh{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;cursor:pointer}
+.snum{width:26px;height:26px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-top:1px}
+.step-card .snum{background:var(--purple50);color:var(--purple800)}
+.dec .snum{background:var(--dec-bg);color:var(--dec-brd);border:1px solid var(--dec-brd)}
+.ret .snum{background:var(--ret-bg);color:var(--ret-brd);border:1px solid var(--ret-brd)}
+.ctx .snum{background:var(--gray50);color:var(--gray600);border:1px solid #B4B2A9}
+.ok .snum{background:var(--green50);color:var(--green800)}
+.smeta{flex:1;min-width:0}
+.stitle{font-size:13px;font-weight:600;line-height:1.3}
+.dec .stitle{color:var(--dec-txt)}.ret .stitle{color:var(--ret-txt);font-style:italic}
+.ctx .stitle{color:var(--gray600)}.ok .stitle{color:var(--green800)}
+.sactor{font-size:11px;margin-top:2px;color:var(--muted)}
+.sprazo{font-size:10px;font-weight:600;padding:2px 7px;border-radius:12px;background:#fff3cd;color:#856404;border:1px solid #ffc107;display:inline-block;margin-top:3px}
+.sprazo.empty{background:#f8f9fa;color:#adb5bd;border-color:#dee2e6;font-weight:400;font-style:italic}
+.scaret{font-size:11px;color:var(--muted);margin-left:auto;padding-top:3px;transition:transform .2s;flex-shrink:0}
+.step-card.open .scaret{transform:rotate(180deg)}
+.sbody{display:none;padding:0 12px 12px 47px;border-top:1px solid var(--border)}
+.dec .sbody{border-top-color:var(--dec-brd)}.ret .sbody{border-top-color:var(--ret-brd)}
+.step-card.open .sbody{display:block}
+.sfield{margin-top:8px}
+.sfield-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
+.sfield-val{font-size:13px;color:var(--text);line-height:1.6;border:1px solid var(--border);border-radius:6px;padding:7px 9px;background:var(--bg);min-height:30px;outline:none;width:100%;white-space:pre-wrap}
+.sfield-val[contenteditable=true]:focus{border-color:var(--accent);background:#fff}
+.sfield-val[contenteditable=true]:empty:before{content:attr(data-ph);color:#aaa;font-style:italic}
+.prazo-val{background:#fff8e6;border-color:#ffc107}
+.obs-val{background:#f8fdf5;border-color:#c0dd97}
+.arrow{text-align:center;color:var(--border2);font-size:15px;padding:1px 0}
+.tempo-box{background:var(--purple50);border:1px solid var(--purple600);border-radius:8px;padding:12px 16px;margin-top:16px;font-size:12px;color:var(--purple800);line-height:1.7}
+.tempo-box strong{font-weight:600}
+#toast{position:fixed;bottom:22px;right:22px;background:#26215C;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
+#toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><div class="t1">Sub-processo — USCI · SRP / SES-DF</div>
+    <div class="t2">Fase 2 — Instrução processual · Processos ≥ R$ 10 milhões</div></div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" onclick="document.querySelectorAll('.step-card').forEach(s=>s.classList.add('open'))">Expandir tudo</button>
+    <button class="btn btn-ghost" onclick="document.querySelectorAll('.step-card').forEach(s=>s.classList.remove('open'))">Recolher tudo</button>
+    <button class="btn btn-primary" onclick="salvar()">⬇ Salvar HTML</button>
+  </div>
+</div>
+<div class="main">
+  <a class="volta" href="Processo_SRP_SES-DF_v3.html">← Voltar ao processo principal</a>
+  <div class="header-card">
+    <h1>Sub-processo — Análise da USCI (Controle Interno)</h1>
+    <p>Ativado quando o valor estimado da contratação é igual ou superior a R$ 10 milhões. A Unidade Setorial de Controle Interno (USCI) analisa os autos e emite nota técnica com eventuais recomendações antes da publicação do edital.</p>
+  </div>
+  <div class="base-legal">
+    <strong>Base legal:</strong> Art. 169 da Lei nº 14.133/2021 (controle interno) · Art. 8º do Decreto Distrital nº 44.330/2023 (atribuições da USCI) ·
+    Decreto Distrital nº 36.236/2014 (regulamento do controle interno do DF) ·
+    <strong>Prazo da USCI:</strong> 7 dias úteis (a confirmar junto à USCI).
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--purple50);border:1px solid var(--purple600)"></div>Etapa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--dec-bg);border:1.5px dashed var(--dec-brd)"></div>Decisão</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--ret-bg);border:1.5px dashed var(--ret-brd)"></div>Retorno</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gray50);border:1px solid #B4B2A9"></div>Contexto</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green50);border:1px solid #97C459"></div>Saída</div>
+    <div class="leg-item" style="font-size:10px;color:#aaa;font-style:italic">✏ Clique para editar</div>
+  </div>
+  <div class="flow" id="flow"></div>
+  <div class="tempo-box">
+    <strong>Prazo total estimado do sub-processo:</strong><br>
+    Caminho sem retorno: 7 d.u. (USCI) + 2 d.u. (análise Assessoria SUCOMP) = <strong>9 dias úteis</strong>.<br>
+    Caminho com retorno parcial (ajuste etapa 2): + prazos da etapa 2 a 12 = retomada integral da instrução.<br>
+    Caminho com retorno total (ajuste etapas 2–5): + todos os prazos das etapas de pesquisa de preços.<br>
+    <strong>Atenção:</strong> o prazo da USCI deve ser confirmado junto à unidade. O valor de 7 d.u. é referencial.
+  </div>
+</div>
+<div id="toast">✓ Arquivo salvo</div>
+<script>
+const E=[
+  {cls:"ctx",num:"10",titulo:"Etapa 10 — Minutas de edital e contrato (contexto)",
+   resp:"GEIL · GINFAC",prazo:"5 (edital) / 10 (contrato, paralelo)",
+   docs:"Minuta de edital · Minuta de contrato (quando aplicável)",
+   notas:"Após a elaboração das minutas, verifica-se se o valor estimado da contratação é igual ou superior a R$ 10 milhões. Em caso positivo, os autos são encaminhados à USCI antes do atesto.",
+   obs:""},
+  {cls:"",num:"U1",titulo:"Encaminhamento dos autos à USCI",
+   resp:"Assessoria SUCOMP",prazo:"1",
+   docs:"Despacho de encaminhamento à USCI",
+   notas:"A Assessoria SUCOMP elabora despacho encaminhando os autos à Unidade Setorial de Controle Interno (USCI) para análise e emissão de nota técnica. O encaminhamento deve identificar o valor estimado, o objeto e os documentos que compõem os autos.",
+   obs:""},
+  {cls:"",num:"U2",titulo:"Análise da USCI",
+   resp:"USCI",prazo:"7",
+   docs:"Nota técnica da USCI",
+   notas:"A USCI analisa os autos verificando: conformidade dos artefatos de planejamento com a legislação, adequação da pesquisa de preços, regularidade das minutas de edital e contrato, e identificação de riscos ou impropriedades. A nota técnica pode concluir: (1) sem recomendações; (2) com recomendações de ajuste; ou (3) com recomendação de não publicação.",
+   obs:"Prazo a confirmar junto à USCI. O valor de 7 dias úteis é referencial."},
+  {cls:"dec",num:"⬦",titulo:"A nota técnica contém recomendações?",
+   resp:"Assessoria SUCOMP",prazo:"",
+   docs:"",
+   notas:"Sem recomendações → processo segue para a etapa 11 (análise Assessoria SUCOMP) e depois atesto.\nCom recomendações → Assessoria SUCOMP analisa cada ponto e decide o encaminhamento.",
+   obs:""},
+  {cls:"",num:"U3",titulo:"Análise das recomendações pela Assessoria SUCOMP",
+   resp:"Assessoria SUCOMP",prazo:"2",
+   docs:"Despacho de encaminhamento para providências (quando aplicável)",
+   notas:"A Assessoria SUCOMP analisa cada recomendação da USCI e classifica: (a) sem impacto no fluxo — sanável por ajuste nos autos sem retorno; (b) impacto restrito à etapa 2 — exige retificação de ETP ou TR, retorna à GEAPRE; (c) impacto nas etapas 2 a 5 — exige revisão que afeta os preços apurados, retorna às etapas de pesquisa.",
+   obs:"A decisão sobre o escopo do retorno deve ser documentada formalmente no processo para fins de rastreabilidade e controle externo (TCDF)."},
+  {cls:"dec",num:"⬦",titulo:"Qual o impacto das recomendações?",
+   resp:"Assessoria SUCOMP",prazo:"",
+   docs:"",
+   notas:"Sem impacto → sanamento nos autos, segue para atesto.\nImpacto na etapa 2 → retorna à GEAPRE para ajuste do ETP/TR.\nImpacto nas etapas 2–5 → retorna à GEAPRE e às etapas de pesquisa de preços.",
+   obs:""},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno à etapa 2 (ajuste ETP/TR)",
+   resp:"Área demandante",prazo:"5 (sugestão)",
+   docs:"ETP e/ou TR revisados",
+   notas:"Os documentos revisados retornam à GEAPRE para reanálise de conformidade (etapa 2). O processo percorre novamente as etapas 2 a 12. Só voltará às etapas 3–5 se os ajustes impactarem os preços apurados.",
+   obs:"Caso os autos retornem à fase de elaboração dos instrumentos de planejamento, retomam-se os prazos para cada uma das etapas."},
+  {cls:"ret",num:"↩",titulo:"↩  Retorno às etapas 2–5 (ajuste que impacta preços)",
+   resp:"Área demandante · GEPP",prazo:"",
+   docs:"ETP e/ou TR revisados · Nova pesquisa de preços (quando necessária)",
+   notas:"Quando os ajustes afetam as especificações do objeto de forma que impactem nos preços apurados ou no valor estimado da contratação, o processo retorna às etapas de pesquisa de preços (etapas 3 a 5), percorrendo novamente toda a fase de instrução.",
+   obs:"Retomam-se os prazos de cada etapa desde o início."},
+  {cls:"ok",num:"→12",titulo:"Saída — retorno ao fluxo principal (Etapa 12 — Atesto)",
+   resp:"Assessoria SUCOMP",prazo:"",
+   docs:"",
+   notas:"Após o saneamento das recomendações da USCI (ou confirmada a ausência de recomendações), o processo retorna ao fluxo principal na etapa 12 (atesto da Assessoria SUCOMP).",
+   obs:""},
+];
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+document.getElementById('flow').innerHTML=E.map((e,i)=>`
+  ${i>0?'<div class="arrow">↓</div>':''}
+  <div class="step-card ${e.cls}">
+    <div class="sh" onclick="this.parentElement.classList.toggle('open')">
+      <div class="snum">${esc(e.num)}</div>
+      <div class="smeta">
+        <div class="stitle">${esc(e.titulo)}</div>
+        <div class="sactor">${esc(e.resp)}</div>
+        ${e.prazo?`<span class="sprazo">${esc(e.prazo)} d.u.</span>`:(e.cls===''?'<span class="sprazo empty">prazo a definir</span>':'')}
+      </div>
+      <div class="scaret">▼</div>
+    </div>
+    <div class="sbody">
+      ${e.docs?`<div class="sfield"><div class="sfield-label">📄 Documentos</div><div class="sfield-val" contenteditable="true">${esc(e.docs)}</div></div>`:''}
+      ${e.notas?`<div class="sfield"><div class="sfield-label">📝 Notas explicativas</div><div class="sfield-val" contenteditable="true">${esc(e.notas)}</div></div>`:''}
+      <div class="sfield"><div class="sfield-label">⏱ Prazo (dias úteis)</div><div class="sfield-val prazo-val" contenteditable="true" data-ph="A definir">${esc(e.prazo||'')}</div></div>
+      <div class="sfield"><div class="sfield-label">⚠️ Observações</div><div class="sfield-val obs-val" contenteditable="true" data-ph="Sem observações">${esc(e.obs||'')}</div></div>
+    </div>
+  </div>`).join('');
+function salvar(){
+  const b=new Blob(['<!DOCTYPE html>\n'+document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='Subprocesso_USCI_SRP_SES-DF.html';a.click();
+  const t=document.getElementById('toast');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+</script>
+</body>
+</html>
